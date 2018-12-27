@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<log>
+	<events>
+    	<event>
+        	<eid>165</eid>
+        	<cid>2</cid>
+        	<activity>Establishing connection</activity>
+        	<resource>192.168.0.1</resource>
+    	</event>
+
+    	<event>
+	        <eid>166</eid>
+        	<cid>2</cid>
+        	<activity>Sending data</activity>
+        	<resource>192.168.0.2</resource>
+    	</event>
+    </events>
+</log>

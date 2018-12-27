@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ModelExtractor">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="10"/>
+    <property name="source" value="10"/>
+    <import file="custom.xml"/>
+    <path id="ModelExtractor.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/log4j-1.2.17.jar"/>
+        <pathelement location="lib/activation-1.1.1.jar"/>
+        <pathelement location="lib/jaxb-api-2.2.11.jar"/>
+        <pathelement location="lib/jaxb-core-2.2.11.jar"/>
+        <pathelement location="lib/jaxb-impl-2.2.11.jar"/>
+    </path>
+    <path id="run.Main.classpath">
+        <path refid="ModelExtractor.classpath"/>
+        <pathelement location="lib/log4j-1.2.17.jar"/>
+        <pathelement location="lib/activation-1.1.1.jar"/>
+        <pathelement location="lib/jaxb-api-2.2.11.jar"/>
+        <pathelement location="lib/jaxb-core-2.2.11.jar"/>
+        <pathelement location="lib/jaxb-impl-2.2.11.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="ModelExtractor.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="Main">
+        <java classname="extractor.Main" failonerror="true" fork="yes">
+            <classpath refid="run.Main.classpath"/>
+        </java>
+    </target>
+</project>

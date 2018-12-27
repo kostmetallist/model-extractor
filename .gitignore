@@ -1,0 +1,6 @@
+#ignore compiled classes and outcome jar
+bin/
+jar/
+
+#ignore Eclipse-specific settings
+.settings/

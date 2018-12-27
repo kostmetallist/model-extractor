@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse.ant.import?>
+<project basedir=".">
+    <property environment="env"/>
+    <property name="jar_dir" value="jar"/>
+	<property name="bin_dir" value="bin"/>
+	<property name="lib_dir" value="lib"/>
+	<property name="main_class" value="extractor.Main"/>
+    <path id="jar_classpath">
+        <pathelement location="${bin_dir}"/>
+    	<pathelement location="${lib_dir}"/>
+    </path>
+	
+    <target name="yield">
+    	<echo message="yielding"/>
+    </target>
+	
+	<target name="jar">
+		<mkdir dir="${jar_dir}"/>
+		<delete>
+			<fileset dir="${jar_dir}" includes="*.jar"/>
+		</delete>
+		<manifestclasspath property="jar.classpath" jarfile="${jar_dir}/ModelExtractor.jar">
+			<classpath>
+				<fileset dir="${lib_dir}" includes="*.jar"/>
+			</classpath>
+		</manifestclasspath>
+		<jar destfile="${jar_dir}/ModelExtractor.jar" basedir="${bin_dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main_class}"/>
+				<attribute name="Class-Path" value="${jar.classpath}"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	<target depends="jar" name="run">
+		<java fork="true" classname="${main_class}">
+			<classpath>
+				<path refid="jar_classpath"/>
+				<path location="${jar_dir}/ModelExtractor.jar"/>
+			</classpath>
+		</java>
+	</target>
+</project>
