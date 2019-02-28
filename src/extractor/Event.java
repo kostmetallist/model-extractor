@@ -1,10 +1,8 @@
 package extractor;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "event")
 @XmlType(propOrder = {"eventId", "caseId", "activity", "resource"})
 public class Event {
 

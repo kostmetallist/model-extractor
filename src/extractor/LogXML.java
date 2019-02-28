@@ -7,13 +7,14 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 import java.util.ArrayList;
 
+
 @XmlRootElement(name = "log")
-@XmlType(propOrder = {"events"})
+@XmlType(propOrder = {"eventList"})
 public class LogXML {
 
 	private List<Event> eventList = new ArrayList<>();
 	
-	@XmlElement(name = "events")
+	@XmlElement(name = "event")
 	public List<Event> getEventList() {
 		return this.eventList;
 	}

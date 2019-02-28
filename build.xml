@@ -16,6 +16,13 @@
         <pathelement location="lib/jaxb-api-2.2.11.jar"/>
         <pathelement location="lib/jaxb-core-2.2.11.jar"/>
         <pathelement location="lib/jaxb-impl-2.2.11.jar"/>
+        <pathelement location="lib/jgrapht-bundle-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-core-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-demo-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-ext-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-guava-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-io-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-opt-1.3.0.jar"/>
     </path>
     <path id="run.Main.classpath">
         <path refid="ModelExtractor.classpath"/>
@@ -24,12 +31,18 @@
         <pathelement location="lib/jaxb-api-2.2.11.jar"/>
         <pathelement location="lib/jaxb-core-2.2.11.jar"/>
         <pathelement location="lib/jaxb-impl-2.2.11.jar"/>
+        <pathelement location="lib/jgrapht-bundle-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-core-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-io-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-ext-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-demo-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-guava-1.3.0.jar"/>
+        <pathelement location="lib/jgrapht-opt-1.3.0.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
