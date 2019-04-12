@@ -35,6 +35,7 @@
 	
 	<target depends="jar" name="run">
 		<java fork="true" classname="${main_class}">
+			<sysproperty key="log4j.configurationFile" value="log4j2.xml"/>
 			<classpath>
 				<path refid="jar_classpath"/>
 				<path location="${jar_dir}/ModelExtractor.jar"/>

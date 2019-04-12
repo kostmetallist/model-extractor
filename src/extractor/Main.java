@@ -1,62 +1,45 @@
 package extractor;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import java.io.File;
+//import java.io.File;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 //import org.jgrapht.io.*;
 //import org.jgrapht.traverse.*;
 
+import generating.LogGenerator;
+import model.EventXML;
+import model.LogXML;
+
 
 
 public class Main {
 	
-	public LogXML xmlToLogXML(String path) {
-		
-		try {
-			
-			JAXBContext context = JAXBContext.newInstance(LogXML.class);
-			Unmarshaller unmar = context.createUnmarshaller();
-			LogXML log = (LogXML) unmar.unmarshal(new File(path));
-			return log;
-		}
-		
-		catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
 	
-	public Event xmlToEvent(String path) {
-		
-		try {
-			
-			JAXBContext context = JAXBContext.newInstance(Event.class);
-			Unmarshaller unmar = context.createUnmarshaller();
-			Event event = (Event) unmar.unmarshal(new File(path));
-			return event;
-		}
-		
-		catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
+	
+//	public EventXML xmlToEvent(String path) {
+//		
+//		try {
+//			
+//			JAXBContext context = JAXBContext.newInstance(EventXML.class);
+//			Unmarshaller unmar = context.createUnmarshaller();
+//			EventXML event = (EventXML) unmar.unmarshal(new File(path));
+//			return event;
+//		}
+//		
+//		catch (JAXBException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return null;
+//	}
 
 	public static void main(String[] args) {
 		
-		Main app = new Main();
-		LogXML log = app.xmlToLogXML("data/sample.xml");
-		//Event event = app.xmlToEvent("data/sampleSimple.xml");
-		//System.out.println(event);
+//		Main app = new Main();
+		LogXML log = LogXML.xmlToLogXML("data/sample.xml");
 		
-		for (Event each : log.getEventList()) {
+		for (EventXML each : log.getEventList()) {
 			System.out.println(each);
 		}
 		
@@ -81,5 +64,7 @@ public class Main {
 		
         GraphManager gManager = new GraphManager();
         gManager.graphToDot(g, "data/graph.dot");
+        
+        LogGenerator.generateLog4j();
 	}
 }

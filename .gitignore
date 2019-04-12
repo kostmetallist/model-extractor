@@ -4,3 +4,6 @@ jar/
 
 #ignore Eclipse-specific settings
 .settings/
+
+#ignore log4j generated log file
+log4j2.xml
