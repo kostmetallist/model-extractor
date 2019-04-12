@@ -1,0 +1,10 @@
+strict graph G {
+  1 [ label="v1" ];
+  2 [ label="v2" ];
+  3 [ label="v3" ];
+  4 [ label="v4" ];
+  1 -- 2 [ label="(v1 : v2)" ];
+  2 -- 3 [ label="(v2 : v3)" ];
+  3 -- 4 [ label="(v3 : v4)" ];
+  4 -- 1 [ label="(v4 : v1)" ];
+}
