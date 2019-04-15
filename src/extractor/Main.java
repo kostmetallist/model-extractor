@@ -1,21 +1,14 @@
 package extractor;
 
-//import java.io.File;
-
-import org.jgrapht.*;
-import org.jgrapht.graph.*;
-//import org.jgrapht.io.*;
-//import org.jgrapht.traverse.*;
-
 import generating.LogGenerator;
 import model.EventXML;
 import model.LogXML;
+import model.TransSystem;
 
+import java.util.Arrays;
 
 
 public class Main {
-	
-	
 	
 //	public EventXML xmlToEvent(String path) {
 //		
@@ -36,35 +29,32 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-//		Main app = new Main();
 		LogXML log = LogXML.xmlToLogXML("data/sample.xml");
 		
 		for (EventXML each : log.getEventList()) {
 			System.out.println(each);
 		}
 		
-        Graph<String, DefaultEdge> g = new SimpleGraph<>(DefaultEdge.class);
-
-        String v1 = "v1";
-        String v2 = "v2";
-        String v3 = "v3";
-        String v4 = "v4";
-
-        // add the vertices
-        g.addVertex(v1);
-        g.addVertex(v2);
-        g.addVertex(v3);
-        g.addVertex(v4);
-
-        // add edges to create a circuit
-        g.addEdge(v1, v2);
-        g.addEdge(v2, v3);
-        g.addEdge(v3, v4);
-        g.addEdge(v4, v1);
-		
-        GraphManager gManager = new GraphManager();
-        gManager.graphToDot(g, "data/graph.dot");
-        
-        LogGenerator.generateLog4j();
+		LogGenerator.generateLog4j();
+//		TransSystem ts = new TransSystem();
+//		
+//		TransSystem.TSVertex v1 = new TransSystem.TSVertex(Arrays.asList("{}"));
+//		TransSystem.TSVertex v2 = new TransSystem.TSVertex(Arrays.asList("{a}"));
+//		TransSystem.TSVertex v3 = new TransSystem.TSVertex(Arrays.asList("{a, b}"));
+//		TransSystem.TSVertex v4 = new TransSystem.TSVertex(Arrays.asList("{a, c}"));
+//		
+//		ts.addVertex(v1);
+//		ts.addVertex(v2);
+//		ts.addVertex(v3);
+//		ts.addVertex(v4);
+//		
+//		TransSystem.TSEdge e12 = new TransSystem.TSEdge("a");
+//		ts.addEdge(v1, v2, e12);
+//		TransSystem.TSEdge e23 = new TransSystem.TSEdge("b");
+//		ts.addEdge(v2, v3, e23);
+//		TransSystem.TSEdge e24 = new TransSystem.TSEdge("c");
+//		ts.addEdge(v2, v4, e24);
+//		
+//		GraphManager.transSystemToDot(ts, "data/ts-test.dot");
 	}
 }

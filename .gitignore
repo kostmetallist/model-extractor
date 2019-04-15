@@ -7,3 +7,6 @@ jar/
 
 #ignore log4j generated log file
 log4j2.log
+
+#ignore generated .dot and .pdf files
+data/*.dot data/*.pdf
