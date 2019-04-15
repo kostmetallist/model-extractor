@@ -3,11 +3,11 @@
     <Appenders>
     	
         <File name="File1" fileName="log4j2.log" bufferedIO="false">
-        	<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        	<PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
   		</File>
     </Appenders>
     <Loggers>
-        <Logger name="generating.LogGenerator" level="trace">
+        <Logger name="generating.Log4jGenerator" level="trace">
             <AppenderRef ref="File1"/>
         </Logger>
         

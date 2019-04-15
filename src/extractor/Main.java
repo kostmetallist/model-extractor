@@ -1,41 +1,31 @@
 package extractor;
 
-import generating.LogGenerator;
-import model.EventXML;
-import model.LogXML;
-import model.TransSystem;
+import generating.Generator;
+import generating.Log4jGenerator;
+//import model.TransSystem;
+import model.mxml.*;
 
-import java.util.Arrays;
+//import java.util.Arrays;
+import java.util.List;
 
 
 public class Main {
-	
-//	public EventXML xmlToEvent(String path) {
-//		
-//		try {
-//			
-//			JAXBContext context = JAXBContext.newInstance(EventXML.class);
-//			Unmarshaller unmar = context.createUnmarshaller();
-//			EventXML event = (EventXML) unmar.unmarshal(new File(path));
-//			return event;
-//		}
-//		
-//		catch (JAXBException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return null;
-//	}
 
 	public static void main(String[] args) {
 		
-		LogXML log = LogXML.xmlToLogXML("data/sample.xml");
+		LogMXML log = LogMXML.getIntermediateModel("data/running-example.mxml");
+		List<DataMXML.Attr> attrList = log.getProcessList().get(0).
+			getCaseList().get(0).getEventList().get(0).getData().getAttrList();
 		
-		for (EventXML each : log.getEventList()) {
-			System.out.println(each);
+		for (DataMXML.Attr each : attrList) {
+			if (each.getName().equals("Costs")) {
+				System.out.println("RESULT: " + each.getValue());
+			}
 		}
 		
-		LogGenerator.generateLog4j();
+		
+		Generator log4jGen = new Log4jGenerator();
+		log4jGen.generate();
 //		TransSystem ts = new TransSystem();
 //		
 //		TransSystem.TSVertex v1 = new TransSystem.TSVertex(Arrays.asList("{}"));

@@ -5,11 +5,13 @@ import org.apache.logging.log4j.Logger;
 //import org.apache.log4j.xml.DOMConfigurator;
 
 
-public class LogGenerator {
+public class Log4jGenerator implements Generator {
 
-	private static final Logger logger = LogManager.getLogger(LogGenerator.class);
+	private static final Logger logger = 
+			LogManager.getLogger(Log4jGenerator.class);
 	
-	public static void generateLog4j() {
+	@Override
+	public void generate() {
 		logger.trace("HELLO");
 	}
 }

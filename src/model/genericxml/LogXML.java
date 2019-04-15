@@ -1,4 +1,4 @@
-package model;
+package model.genericxml;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,8 +8,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import java.util.List;
-import java.io.File;
 import java.util.ArrayList;
+import java.io.File;
 
 
 @XmlRootElement(name = "log")
