@@ -9,4 +9,5 @@ jar/
 log4j2.log
 
 #ignore generated .dot and .pdf files
-data/*.dot data/*.pdf
+data/*.dot 
+data/*.pdf
