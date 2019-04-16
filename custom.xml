@@ -23,6 +23,7 @@
 		<manifestclasspath property="jar.classpath" jarfile="${jar_dir}/ModelExtractor.jar">
 			<classpath>
 				<fileset dir="${lib_dir}" includes="*.jar"/>
+				<pathelement path="${basedir}"/>
 			</classpath>
 		</manifestclasspath>
 		<jar destfile="${jar_dir}/ModelExtractor.jar" basedir="${bin_dir}">
