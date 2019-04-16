@@ -1,10 +1,9 @@
 package model;
 
-import org.jgrapht.*;
+//import org.jgrapht.*;
 import org.jgrapht.graph.*;
 import java.util.List;
 import java.util.ArrayList;
-
 
 public class TransSystem extends 
 	DefaultDirectedWeightedGraph<TransSystem.TSVertex, TransSystem.TSEdge> {
