@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.time.LocalDateTime;
+
 
 public class Main {
 
@@ -33,7 +35,7 @@ public class Main {
 		
 		for (TaggedList each : can.getTaggedSequences()) {
 			System.out.println(each.list.size());
-			System.out.println(each.list.get(0).getActivity());
+			System.out.println(each.list.get(0).getTimestamp());
 		}
 		
 //		TransSystem ts = new TransSystem();

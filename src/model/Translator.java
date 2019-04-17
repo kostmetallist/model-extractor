@@ -3,9 +3,15 @@ package model;
 import model.mxml.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Translator {
+	
+	private static DateTimeFormatter mxmlFormatter = 
+		DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+	
 
 	public static Canonical castMXML(LogMXML log) {
 		
@@ -33,6 +39,8 @@ public class Translator {
 					
 				event.setActivity(activity);
 				event.setCaseId(caseNum);
+				event.setTimestamp(LocalDateTime.parse(
+					eMXML.getTimestamp(), mxmlFormatter));
 				eventList.add(event);
 			}
 				
