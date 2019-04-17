@@ -66,7 +66,6 @@ public class Canonical {
 				CompareResult res = compareByActivities(baseElem.list, 
 						taggedSequences.get(i).list);
 				
-				System.out.println("CompareResult: " + res);
 				if (res == CompareResult.SAME) {
 								
 					baseElem.tag++;

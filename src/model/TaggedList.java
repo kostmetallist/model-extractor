@@ -7,4 +7,10 @@ public class TaggedList {
 
 	public List<Event> list;
 	public Integer tag;
+	
+	public TaggedList(List<Event> list, Integer tag) {
+		
+		this.list = list;
+		this.tag = tag;
+	}
 }

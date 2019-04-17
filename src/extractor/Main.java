@@ -2,7 +2,7 @@ package extractor;
 
 import generating.Generator;
 import generating.Log4jGenerator;
-//import model.mxml.*;
+import model.mxml.*;
 import model.*;
 
 import java.util.ArrayList;
@@ -28,57 +28,12 @@ public class Main {
 		Generator log4jGen = new Log4jGenerator();
 		log4jGen.generate();
 		
-		Canonical can = new Canonical();
+		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
+		Canonical can = Translator.castMXML(log);
 		
-		Event e1_1 = new Event();
-		e1_1.setActivity("A");
-		Event e1_2 = new Event();
-		e1_2.setActivity("B");
-		Event e1_3 = new Event();
-		e1_3.setActivity("C");
-		TaggedList tl1 = new TaggedList();
-		tl1.list = Arrays.asList(e1_1, e1_2, e1_3);
-		tl1.tag = 1;
-		
-		Event e2_1 = new Event();
-		e2_1.setActivity("D");
-		Event e2_2 = new Event();
-		e2_2.setActivity("E");
-		Event e2_3 = new Event();
-		e2_3.setActivity("F");
-		TaggedList tl2 = new TaggedList();
-		tl2.list = Arrays.asList(e2_1, e2_2, e2_3);
-		tl2.tag = 1;
-		
-		Event e3_1 = new Event();
-		e3_1.setActivity("A");
-		Event e3_2 = new Event();
-		e3_2.setActivity("B");
-		Event e3_3 = new Event();
-		e3_3.setActivity("C");
-		TaggedList tl3 = new TaggedList();
-		tl3.list = Arrays.asList(e3_1, e3_2, e3_3);
-		tl3.tag = 1;
-		
-		Event e4_1 = new Event();
-		e4_1.setActivity("D");
-		Event e4_2 = new Event();
-		e4_2.setActivity("E");
-		TaggedList tl4 = new TaggedList();
-		tl4.list = Arrays.asList(e4_1, e4_2);
-		tl4.tag = 1;
-		
-		List<TaggedList> canData = new ArrayList<>();
-		canData.add(tl1);
-		canData.add(tl2);
-		canData.add(tl3);
-		canData.add(tl4);
-		
-		can.setTaggedSequences(canData);
-		can.refineData();
-		System.out.println("Final result");
-		for (TaggedList tl : can.getTaggedSequences()) {
-			System.out.println(tl.tag);
+		for (TaggedList each : can.getTaggedSequences()) {
+			System.out.println(each.list.size());
+			System.out.println(each.list.get(0).getActivity());
 		}
 		
 //		TransSystem ts = new TransSystem();
