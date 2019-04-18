@@ -33,10 +33,13 @@ public class Main {
 		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
 		Canonical can = Translator.castMXML(log);
 		
-		for (TaggedList each : can.getTaggedSequences()) {
-			System.out.println(each.list.size());
-			System.out.println(each.list.get(0).getTimestamp());
-		}
+		TransSystem tSys = new TransSystem();
+		tSys.emulateCanonical(can);
+		GraphManager.transSystemToDot(tSys, "data/auto_model.dot");
+//		for (TaggedList each : can.getTaggedSequences()) {
+//			System.out.println(each.list.size());
+//			System.out.println(each.list.get(0).getTimestamp());
+//		}
 		
 //		TransSystem ts = new TransSystem();
 //		
