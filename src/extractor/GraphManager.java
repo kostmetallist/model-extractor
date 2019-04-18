@@ -15,6 +15,7 @@ import model.TransSystem;
 
 public class GraphManager {
 	
+	private static final double maxPenWidth = 7.0;
 	private static final Attribute nodeStyle = 
 			DefaultAttribute.createAttribute("filled");
 	private static final Attribute nodeColor = 
@@ -49,11 +50,16 @@ public class GraphManager {
 				new DOTExporter<>(
 					new IntegerComponentNameProvider<TransSystem.TSVertex>(), 
 					new StringComponentNameProvider<TransSystem.TSVertex>(), 
-					new StringComponentNameProvider<TransSystem.TSEdge>(), 
+					new ComponentNameProvider<TransSystem.TSEdge>() {
+						@Override
+						public String getName(TransSystem.TSEdge edge) {
+							return "  " + edge.getLabel() + "  ";
+						}
+					}, 
 					new ComponentAttributeProvider<TransSystem.TSVertex>() {
 						@Override
 						public Map<String, Attribute> getComponentAttributes(
-								TransSystem.TSVertex comp) {
+								TransSystem.TSVertex vertex) {
 
 							Map<String, Attribute> attributes = new HashMap<>();
 							attributes.put("style", nodeStyle);
@@ -64,11 +70,14 @@ public class GraphManager {
 					new ComponentAttributeProvider<TransSystem.TSEdge>() {
 						@Override
 						public Map<String, Attribute> getComponentAttributes(
-								TransSystem.TSEdge comp) {
+								TransSystem.TSEdge edge) {
 							
 							Map<String, Attribute> attributes = new HashMap<>();
+							double edgeWidth = 0.5 + (maxPenWidth-0.5) * 
+								edge.getWeight()/ts.getMaxEdgeWeight();
 							attributes.put("penwidth",
-								DefaultAttribute.createAttribute(3.0));
+								DefaultAttribute.createAttribute(
+									String.format("%.2f", edgeWidth)));
 							return attributes;
 						}
 					});

@@ -11,6 +11,7 @@ public class TransSystem extends
 	DefaultDirectedWeightedGraph<TransSystem.TSVertex, TransSystem.TSEdge> {
 	
 	private static final long serialVersionUID = 19756912L;
+	private double maxEdgeWeight = 1;
 	
 	public static class TSVertex {
 		
@@ -65,13 +66,24 @@ public class TransSystem extends
 		
 		private static final long serialVersionUID = 81275L;
 		private String label;
+		private double weight;
 		
-		public TSEdge(String label) {
+		public TSEdge(String label, double weight) {
+			
 			this.label = label;
+			this.weight = weight;
 		}
 		
 		public String getLabel() {
 			return this.label;
+		}
+		
+		public double getWeight() {
+			return this.weight;
+		}
+		
+		public void setWeight(double weight) {
+			this.weight = weight;
 		}
 
 		@Override
@@ -88,6 +100,7 @@ public class TransSystem extends
 		this.addVertex(root);
 		// posVertex describes currently inspecting vertex
 		TSVertex posVertex;
+		double maxEdgeW = 1;
 		
 		for (TaggedList tList : can.getTaggedSequences()) {
 			
@@ -120,8 +133,12 @@ public class TransSystem extends
 				// so increasing this edge weight & continuing traversal 
 				if (matchedEdge != null) {
 					
-					this.setEdgeWeight(matchedEdge, 
-						getEdgeWeight(matchedEdge)+1);
+					double adjustedWeight = matchedEdge.getWeight()+1; 
+					matchedEdge.setWeight(adjustedWeight);
+					if (adjustedWeight > maxEdgeW) {
+						maxEdgeW = adjustedWeight;
+					}
+						
 					posVertex = getEdgeTarget(matchedEdge);
 				}
 				
@@ -133,16 +150,21 @@ public class TransSystem extends
 					newState.add(e.getActivity());
 					TSVertex newVertex = new TSVertex(newState); 
 					this.addVertex(newVertex);
-					TSEdge newEdge = new TSEdge(e.getActivity());
+					TSEdge newEdge = new TSEdge(e.getActivity(), 1);
 					this.addEdge(posVertex, newVertex, newEdge);
-					this.setEdgeWeight(newEdge, 1);
 					posVertex = newVertex;
 				}
 			}
 		}
+		
+		this.maxEdgeWeight = maxEdgeW;
 	}
 	
 	public TransSystem() {
 		super(TSEdge.class);
+	}
+	
+	public double getMaxEdgeWeight() {
+		return this.maxEdgeWeight;
 	}
 }
