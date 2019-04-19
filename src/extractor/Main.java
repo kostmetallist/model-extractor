@@ -4,6 +4,7 @@ import generating.Generator;
 import generating.Log4jGenerator;
 import model.mxml.*;
 import model.*;
+import model.mnp.LogMnp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,37 +31,32 @@ public class Main {
 		Generator log4jGen = new Log4jGenerator();
 		log4jGen.generate();
 		
-		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
-		Canonical can = Translator.castMXML(log);
+//		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
+//		Canonical can = Translator.castMXML(log);
+//		can.refineData();
+//		
+//		TransSystem tSys = new TransSystem();
+//		tSys.emulateCanonical(can);
+//		GraphManager.transSystemToDot(tSys, "data/auto_model.dot");
+		
+		LogMnp log = LogMnp.extractLogMnp("data/mnp_export.xml");
+		Canonical can = Translator.castMnp(log, true);
+		
+		System.out.println("before deleting similar: " + can.getTaggedSequences().size());
 		can.refineData();
+		System.out.println("after  deleting similar: " + can.getTaggedSequences().size());
+		for (TaggedList pCase : can.getTaggedSequences()) {
+			System.out.println(pCase.list.get(0).getCaseId() + " " + pCase.list.get(0).getActivity());
+		}
 		
 		TransSystem tSys = new TransSystem();
 		tSys.emulateCanonical(can);
-		GraphManager.transSystemToDot(tSys, "data/auto_model.dot");
+		GraphManager.transSystemToDot(tSys, "data/mnp_model.dot");
+		
 //		for (TaggedList each : can.getTaggedSequences()) {
 //			System.out.println(each.list.size());
 //			System.out.println(each.list.get(0).getTimestamp());
 //		}
 		
-//		TransSystem ts = new TransSystem();
-//		
-//		TransSystem.TSVertex v1 = new TransSystem.TSVertex(Arrays.asList("{}"));
-//		TransSystem.TSVertex v2 = new TransSystem.TSVertex(Arrays.asList("{a}"));
-//		TransSystem.TSVertex v3 = new TransSystem.TSVertex(Arrays.asList("{a, b}"));
-//		TransSystem.TSVertex v4 = new TransSystem.TSVertex(Arrays.asList("{a, c}"));
-//		
-//		ts.addVertex(v1);
-//		ts.addVertex(v2);
-//		ts.addVertex(v3);
-//		ts.addVertex(v4);
-//		
-//		TransSystem.TSEdge e12 = new TransSystem.TSEdge("a");
-//		ts.addEdge(v1, v2, e12);
-//		TransSystem.TSEdge e23 = new TransSystem.TSEdge("b");
-//		ts.addEdge(v2, v3, e23);
-//		TransSystem.TSEdge e24 = new TransSystem.TSEdge("c");
-//		ts.addEdge(v2, v4, e24);
-//		
-//		GraphManager.transSystemToDot(ts, "data/ts-test.dot");
 	}
 }

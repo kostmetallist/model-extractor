@@ -146,9 +146,10 @@ public class TransSystem extends
 				// via newly created edge with a label e.activity
 				else {
 					
-					List<String> newState = posVertex.getStateClone(); 
-					newState.add(e.getActivity());
-					TSVertex newVertex = new TSVertex(newState); 
+//					List<String> newState = posVertex.getStateClone(); 
+//					newState.add(e.getActivity());
+//					TSVertex newVertex = new TSVertex(newState); 
+					TSVertex newVertex = new TSVertex(new ArrayList<String>());
 					this.addVertex(newVertex);
 					TSEdge newEdge = new TSEdge(e.getActivity(), tList.tag);
 					this.addEdge(posVertex, newVertex, newEdge);

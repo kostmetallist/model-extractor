@@ -73,10 +73,13 @@ public class Canonical {
 				}
 			}
 			
-			baseIdx++;
+			List<TaggedList> toRemove = new ArrayList<>();
 			for (Integer each : idxsToRemove) {
-				taggedSequences.remove(each.intValue());
+				toRemove.add(taggedSequences.get(each));
 			}
+			
+			taggedSequences.removeAll(toRemove);
+			baseIdx++;
 		}
 	}
 
