@@ -32,6 +32,7 @@ public class Main {
 		
 		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
 		Canonical can = Translator.castMXML(log);
+		can.refineData();
 		
 		TransSystem tSys = new TransSystem();
 		tSys.emulateCanonical(can);

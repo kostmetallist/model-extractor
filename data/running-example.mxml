@@ -479,5 +479,106 @@
 				<Originator>Ellen</Originator>
 			</AuditTrailEntry>
 		</ProcessInstance>
+		<ProcessInstance id="7">
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">register request</Attribute>
+					<Attribute name="Resource">Pete</Attribute>
+					<Attribute name="Costs">50</Attribute>
+				</Data>
+				<WorkflowModelElement>register request</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2010-12-30T14:32:00.000+01:00</Timestamp>
+				<Originator>Pete</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">examine casually</Attribute>
+					<Attribute name="Resource">Mike</Attribute>
+					<Attribute name="Costs">400</Attribute>
+				</Data>
+				<WorkflowModelElement>examine casually</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2010-12-30T15:06:00.000+01:00</Timestamp>
+				<Originator>Mike</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">check ticket</Attribute>
+					<Attribute name="Resource">Ellen</Attribute>
+					<Attribute name="Costs">100</Attribute>
+				</Data>
+				<WorkflowModelElement>check ticket</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2010-12-30T16:34:00.000+01:00</Timestamp>
+				<Originator>Ellen</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">decide</Attribute>
+					<Attribute name="Resource">Sara</Attribute>
+					<Attribute name="Costs">200</Attribute>
+				</Data>
+				<WorkflowModelElement>decide</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-06T09:18:00.000+01:00</Timestamp>
+				<Originator>Sara</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">reinitiate request</Attribute>
+					<Attribute name="Resource">Sara</Attribute>
+					<Attribute name="Costs">200</Attribute>
+				</Data>
+				<WorkflowModelElement>reinitiate request</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-06T12:18:00.000+01:00</Timestamp>
+				<Originator>Sara</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">examine thoroughly</Attribute>
+					<Attribute name="Resource">Sean</Attribute>
+					<Attribute name="Costs">400</Attribute>
+				</Data>
+				<WorkflowModelElement>examine thoroughly</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-06T13:06:00.000+01:00</Timestamp>
+				<Originator>Sean</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">check ticket</Attribute>
+					<Attribute name="Resource">Pete</Attribute>
+					<Attribute name="Costs">100</Attribute>
+				</Data>
+				<WorkflowModelElement>check ticket</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-08T11:43:00.000+01:00</Timestamp>
+				<Originator>Pete</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">decide</Attribute>
+					<Attribute name="Resource">Sara</Attribute>
+					<Attribute name="Costs">200</Attribute>
+				</Data>
+				<WorkflowModelElement>decide</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-09T09:55:00.000+01:00</Timestamp>
+				<Originator>Sara</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="Activity">pay compensation</Attribute>
+					<Attribute name="Resource">Ellen</Attribute>
+					<Attribute name="Costs">200</Attribute>
+				</Data>
+				<WorkflowModelElement>pay compensation</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2011-01-15T10:45:00.000+01:00</Timestamp>
+				<Originator>Ellen</Originator>
+			</AuditTrailEntry>
+		</ProcessInstance>
 	</Process>
 </WorkflowLog>

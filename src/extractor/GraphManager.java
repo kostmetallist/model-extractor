@@ -17,9 +17,11 @@ public class GraphManager {
 	
 	private static final double maxPenWidth = 7.0;
 	private static final Attribute nodeStyle = 
-			DefaultAttribute.createAttribute("filled");
+			DefaultAttribute.createAttribute("rounded, filled");
 	private static final Attribute nodeColor = 
 			DefaultAttribute.createAttribute("#6699ff");
+	private static final Attribute nodeShape = 
+			DefaultAttribute.createAttribute("box");
 	
 	
 	public static void graphToDot(Graph<String, DefaultEdge> graph, 
@@ -53,7 +55,8 @@ public class GraphManager {
 					new ComponentNameProvider<TransSystem.TSEdge>() {
 						@Override
 						public String getName(TransSystem.TSEdge edge) {
-							return "  " + edge.getLabel() + "  ";
+							return "  " + edge.getLabel() + " " + 
+									(int) edge.getWeight() + "  ";
 						}
 					}, 
 					new ComponentAttributeProvider<TransSystem.TSVertex>() {
@@ -64,6 +67,7 @@ public class GraphManager {
 							Map<String, Attribute> attributes = new HashMap<>();
 							attributes.put("style", nodeStyle);
 							attributes.put("fillcolor", nodeColor);
+							attributes.put("shape", nodeShape);
 							return attributes;
 						}
 					}, 

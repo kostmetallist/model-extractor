@@ -133,7 +133,7 @@ public class TransSystem extends
 				// so increasing this edge weight & continuing traversal 
 				if (matchedEdge != null) {
 					
-					double adjustedWeight = matchedEdge.getWeight()+1; 
+					double adjustedWeight = matchedEdge.getWeight()+tList.tag; 
 					matchedEdge.setWeight(adjustedWeight);
 					if (adjustedWeight > maxEdgeW) {
 						maxEdgeW = adjustedWeight;
@@ -150,7 +150,7 @@ public class TransSystem extends
 					newState.add(e.getActivity());
 					TSVertex newVertex = new TSVertex(newState); 
 					this.addVertex(newVertex);
-					TSEdge newEdge = new TSEdge(e.getActivity(), 1);
+					TSEdge newEdge = new TSEdge(e.getActivity(), tList.tag);
 					this.addEdge(posVertex, newVertex, newEdge);
 					posVertex = newVertex;
 				}
