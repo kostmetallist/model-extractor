@@ -1,7 +1,7 @@
 package model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,78 +13,77 @@ import java.util.ArrayList;
  */
 public class Canonical {
 	
-	private enum CompareResult {
-		SAME,
-		DIFFERENT,
-		PREFIX
-	}
+    private enum CompareResult {
+        SAME, 
+        DIFFERENT, 
+        PREFIX
+    }
 
-	// Content describing particular process data. TaggedList.list is a 
-	// sequence of events with similar caseId; corresponding TaggedList.tag
-	// holds number of that sequence occurrences in the model.
-	// Initially all the tags must be 1, later they may be merged with 
-	// appropriate counter increment.
-	private List<TaggedList> taggedSequences = new ArrayList<>();
+    // Content describing particular process data. TaggedList.list is a
+    // sequence of events with similar caseId; corresponding TaggedList.tag
+    // holds number of that sequence occurrences in the model.
+    // Initially all the tags must be 1, later they may be merged with
+    // appropriate counter increment.
+    private List<TaggedList> taggedSequences = new ArrayList<>();
 	
 	
-	public List<TaggedList> getTaggedSequences() {
-		return this.taggedSequences;
-	}
+    public List<TaggedList> getTaggedSequences() {
+        return this.taggedSequences;
+    }
 
-	public void setTaggedSequences(List<TaggedList> taggedSequences) {
-		this.taggedSequences = taggedSequences;
-	}
+    public void setTaggedSequences(List<TaggedList> taggedSequences) {
+        this.taggedSequences = taggedSequences;
+    }
 	
-	private CompareResult compareByActivities(List<Event> first, 
-			List<Event> second) {
-		
-		for (int i = 0; i < Math.min(first.size(), second.size()); ++i) {
-			if (!first.get(i).getActivity().
-				equals(second.get(i).getActivity())) {
-				
-				return CompareResult.DIFFERENT; 
-			}
-		}
-		
-		if (first.size() == second.size()) {
-			return CompareResult.SAME;
-		}
-		
-		return CompareResult.PREFIX;
-	}
+    private CompareResult compareByActivities(List<Event> first, List<Event> second) {
 
-	// merges sequences with the same Event.activity lists
-	private void mergeSimilar() {
-		
-		int baseIdx = 0;
-		while (baseIdx < taggedSequences.size()) {
-			
-			TaggedList baseElem = taggedSequences.get(baseIdx);
-			List<Integer> idxsToRemove = new ArrayList<>();
-			for (int i = baseIdx+1; i < taggedSequences.size(); ++i) {
-				
-				CompareResult res = compareByActivities(baseElem.list, 
-						taggedSequences.get(i).list);
-				
-				if (res == CompareResult.SAME) {
-								
-					baseElem.tag++;
-					idxsToRemove.add(i);
-				}
-			}
-			
-			List<TaggedList> toRemove = new ArrayList<>();
-			for (Integer each : idxsToRemove) {
-				toRemove.add(taggedSequences.get(each));
-			}
-			
-			taggedSequences.removeAll(toRemove);
-			baseIdx++;
-		}
-	}
+        for (int i = 0; i < Math.min(first.size(), second.size()); ++i) {
+            if (!first.get(i).getActivity().
+                equals(second.get(i).getActivity())) {
 
-	// aggregation method for summarizing all internal processing
-	public void refineData() {
-		this.mergeSimilar();
-	}
+                return CompareResult.DIFFERENT;
+            }
+        }
+
+        if (first.size() == second.size()) {
+            return CompareResult.SAME;
+        }
+
+        return CompareResult.PREFIX;
+    }
+
+    // merges sequences with the same Event.activity lists
+    private void mergeSimilar() {
+
+        int baseIdx = 0;
+        while (baseIdx < taggedSequences.size()) {
+
+            TaggedList baseElem = taggedSequences.get(baseIdx);
+            List<Integer> idxsToRemove = new ArrayList<>();
+            for (int i = baseIdx+1; i < taggedSequences.size(); ++i) {
+
+                CompareResult res = compareByActivities(baseElem.list, 
+                        taggedSequences.get(i).list);
+
+                if (res == CompareResult.SAME) {
+
+                    baseElem.tag++;
+                    idxsToRemove.add(i);
+                }
+            }
+
+            List<TaggedList> toRemove = new ArrayList<>();
+            for (Integer each : idxsToRemove) {
+                toRemove.add(taggedSequences.get(each));
+            }
+
+            taggedSequences.removeAll(toRemove);
+            baseIdx++;
+        }
+    }
+
+    // aggregation method for summarizing all internal processing
+    public void refineData() {
+        this.mergeSimilar();
+    }
 }
