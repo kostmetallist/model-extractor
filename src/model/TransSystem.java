@@ -1,9 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+//import java.util.Set;
 
 //import org.jgrapht.*;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
@@ -114,22 +114,22 @@ public class TransSystem extends
             posVertex = root;
             for (Event e : tList.list) {
 
-                HashSet<TSEdge> outgoingEdges = 
-                        new HashSet<>(this.edgesOf(posVertex));
-                // edgesOf method indeed returned a set containing all
-                // incident to posVertex edges. For receiving only outgoing
-                // edges, we need to apply further filtering
-                Set<TSEdge> ingoingEdges = new HashSet<>();
-                for (TSEdge edge : outgoingEdges) {
-                    if (getEdgeTarget(edge) == posVertex) {
-                        ingoingEdges.add(edge);
-                    }
-                }
-                // now we refined true outgoing edges set
-                outgoingEdges.removeAll(ingoingEdges);
+//                HashSet<TSEdge> outgoingEdges = 
+//                        new HashSet<>(this.edgesOf(posVertex));
+//                // edgesOf method indeed returned a set containing all
+//                // incident to posVertex edges. For receiving only outgoing
+//                // edges, we need to apply further filtering
+//                Set<TSEdge> ingoingEdges = new HashSet<>();
+//                for (TSEdge edge : outgoingEdges) {
+//                    if (getEdgeTarget(edge) == posVertex) {
+//                        ingoingEdges.add(edge);
+//                    }
+//                }
+//                // now we refined true outgoing edges set
+//                outgoingEdges.removeAll(ingoingEdges);
 
                 TSEdge matchedEdge = null;
-                for (TSEdge edge : outgoingEdges) {
+                for (TSEdge edge : outgoingEdgesOf(posVertex)) {
                     if (edge.getLabel().equals(e.getActivity())) {
                         matchedEdge = edge;
                         break;

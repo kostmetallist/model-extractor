@@ -5,6 +5,9 @@ import generating.Log4jGenerator;
 import model.*;
 import model.mnp.LogMnp;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class Main {
 
@@ -35,6 +38,9 @@ public class Main {
         ReferencedSequence rSeq = new ReferencedSequence(can.getTaggedSequences().get(0).list);
         rSeq.reduceLoops();
         rSeq.showContent();
+        
+        List<ActivityMap> actMaps = ActivityMap.emulateReferencedSequences(Arrays.asList(rSeq));
+        GraphManager.activityMapToDot(actMaps.get(0), "data/act_map.dot");
 
 //        TransSystem tSys = new TransSystem();
 //        tSys.emulateCanonical(can);

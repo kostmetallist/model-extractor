@@ -1,0 +1,206 @@
+<?xml version='1.0'  encoding='UTF-8' ?>
+<RESULTS>
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[98649747]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[00000000000006187972]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[2240000011011918]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[NP CDB Confirm]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[
+                             <NPMessages>
+        <PortMessages>
+          <PortMessage>
+            <NPId>2240000011011918</NPId<name />
+            <MessageCode>NP CDB Confirm</MessageCode>
+            <NPRequestId>00000000000006187972|WaitNpCdbConfirm1</NPRequestId>
+            <ProcessType>ShortTimePort</ProcessType>
+            <NPDueDate>2017-11-21T22:30:09+04:00</NPDueDate>
+            <NpList>
+              <Status>pendingDonorApprove</Status>
+              <BeginTime>2017-11-06T22:30:09+04:00</BeginTime>
+            </NpList>
+          </PortMessage>
+        </PortMessages>
+      </NPMessages>
+                           ]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849746]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[00000000000006187367]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[e0dcd0b0-c0e9-11e7-b282-005056b6579c]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[2240020011011918]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[Activity A]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[
+                             <NPMessages>
+        <PortMessages>
+          <PortMessage>
+            <NPId>2240000011011918</NPId<name />
+            <MessageCode>NP CDB Confirm</MessageCode>
+            <NPRequestId>00000000000006187972|WaitNpCdbConfirm1</NPRequestId>
+            <ProcessType>ShortTimePort</ProcessType>
+            <NPDueDate>2017-11-21T22:30:09+04:00</NPDueDate>
+            <NpList>
+              <Status>pendingDonorApprove</Status>
+              <BeginTime>2017-11-06T22:30:09+04:00</BeginTime>
+            </NpList>
+          </PortMessage>
+        </PortMessages>
+      </NPMessages>
+                           ]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849745]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[00000000000006187972]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[
+          ]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[Activity B]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[
+                             <NPMessages>
+        <PortMessages>
+          <PortMessage>
+            <NPId>2240000011011918</NPId<name />
+            <MessageCode>NP CDB Confirm</MessageCode>
+            <NPRequestId>00000000000006187972|WaitNpCdbConfirm1</NPRequestId>
+            <ProcessType>ShortTimePort</ProcessType>
+            <NPDueDate>2017-11-21T22:30:09+04:00</NPDueDate>
+            <NpList>
+              <Status>pendingDonorApprove</Status>
+              <BeginTime>2017-11-06T22:30:09+04:00</BeginTime>
+            </NpList>
+          </PortMessage>
+        </PortMessages>
+      </NPMessages>
+                           ]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[d]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[c]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[c]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+        <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[c]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[b]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[c]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+        <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[b]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[d]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[c]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+        <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[b]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+    <ROW>
+        <COLUMN NAME="ID"><![CDATA[96849744]]></COLUMN>
+        <COLUMN NAME="REQUEST_ID"><![CDATA[1234]]></COLUMN>
+        <COLUMN NAME="PROCESSINSTANCEID"><![CDATA[instance0001]]></COLUMN>
+        <COLUMN NAME="NPID"><![CDATA[]]></COLUMN>
+        <COLUMN NAME="EVENT_NAME"><![CDATA[a]]></COLUMN>
+        <COLUMN NAME="TIMESTAMP"><![CDATA[06.11.17 22:30:11]]></COLUMN>
+        <COLUMN NAME="SYSTEM_NAME"><![CDATA[from.NPCDB]]></COLUMN>
+        <COLUMN NAME="XML_MESSAGE"><![CDATA[]]></COLUMN>
+    </ROW>
+
+</RESULTS>
