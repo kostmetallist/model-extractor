@@ -83,7 +83,7 @@ public class GraphManager {
                             TransSystem.TSEdge edge) {
 
                         Map<String, Attribute> attributes = new HashMap<>();
-                        double edgeWidth = 0.8 + (maxPenWidth - 0.8) * 
+                        double edgeWidth = 1 + (maxPenWidth - 1) * 
                                 edge.getWeight() / ts.getMaxEdgeWeight();
                         attributes.put("penwidth", DefaultAttribute.
                                 createAttribute(String.format("%.2f", 
