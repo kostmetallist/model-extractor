@@ -1,13 +1,18 @@
 package model;
 
 import java.util.ArrayList;
-//import java.util.HashSet;
 import java.util.List;
-//import java.util.Set;
+import java.util.Map;
 
-//import org.jgrapht.*;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.traverse.DepthFirstIterator;
+import org.jgrapht.traverse.GraphIterator;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class TransSystem extends 
     DefaultDirectedWeightedGraph<TransSystem.TSVertex, TransSystem.TSEdge> {
@@ -151,5 +156,70 @@ public class TransSystem extends
         return this.maxEdgeWeight;
     }
     
-    // TODO testDataExport()
+    public void exportTestData(String path) {
+        
+        File file = new File(path);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        try {
+            
+            fw = new FileWriter(file);
+            bw = new BufferedWriter(fw);
+            
+            GraphIterator<TSVertex, TSEdge> iter = 
+                    new DepthFirstIterator<TSVertex, TSEdge>(this);
+            while (iter.hasNext()) {
+                
+                TSVertex visited = iter.next();
+                // this vertex is a leaf -> generate test case
+                if (this.outgoingEdgesOf(visited).isEmpty()) {
+                    
+                    bw.write("<Testcase>");
+                    bw.newLine();
+                    for (Event each : visited.getState()) {
+                        
+                        bw.write("  <Action>");
+                        bw.newLine();
+                        bw.write("    " + each.getActivity());
+                        bw.newLine();
+                        bw.write("  </Action>");
+                        bw.newLine();
+                        
+                        bw.write("  <Dataset>");
+                        bw.newLine();
+                        for (Map.Entry<String, String> entry : 
+                            each.getExtra().entrySet()) {
+                            
+                            bw.write("    " + entry.getKey() + 
+                                    ": " + entry.getValue());
+                            bw.newLine();
+                        }
+                            
+                        bw.write("  </Dataset>");
+                        bw.newLine();
+                    }
+                    
+                    bw.write("</Testcase>");
+                    bw.newLine();
+                    bw.newLine();
+                }
+            }
+        }
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        finally {
+            try {
+                bw.close();
+                fw.close();
+            }
+            
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

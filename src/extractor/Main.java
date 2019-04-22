@@ -49,7 +49,9 @@ public class Main {
 
         TransSystem tSys = new TransSystem();
         tSys.emulateCanonical(can);
+        tSys.exportTestData("data/testcases.tcxml");
         GraphManager.transSystemToDot(tSys, "data/mnp_model.dot");
+
 
 //		for (TaggedList each : can.getTaggedSequences()) {
 //			System.out.println(each.list.size());

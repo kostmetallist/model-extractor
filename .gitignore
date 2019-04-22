@@ -11,3 +11,4 @@ log4j2.log
 #ignore generated .dot and .pdf files
 data/*.dot 
 data/*.pdf
+data/*.tcxml
