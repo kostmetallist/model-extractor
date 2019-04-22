@@ -136,7 +136,6 @@ public class TransSystem extends
 					List<Event> newState = posVertex.getStateClone(); 
 					newState.add(e);
 					TSVertex newVertex = new TSVertex(newState); 
-//                    TSVertex newVertex = new TSVertex(new ArrayList<String>());
                     this.addVertex(newVertex);
                     TSEdge newEdge = new TSEdge(e.getActivity(), tList.tag);
                     this.addEdge(posVertex, newVertex, newEdge);
@@ -151,4 +150,6 @@ public class TransSystem extends
     public double getMaxEdgeWeight() {
         return this.maxEdgeWeight;
     }
+    
+    // TODO testDataExport()
 }

@@ -23,32 +23,26 @@ public class Main {
 
 //		LogMXML log = LogMXML.extractLogMXML("data/running-example.mxml");
 //		Canonical can = Translator.castMXML(log);
-//		can.refineData();
-//		
+//		can.refineData();		
 //		TransSystem tSys = new TransSystem();
 //		tSys.emulateCanonical(can);
 //		GraphManager.transSystemToDot(tSys, "data/auto_model.dot");
 
         LogMnp log = LogMnp.extractLogMnp("data/mnp_export.xml");
-//        LogMnp log = LogMnp.extractLogMnp("data/mnp_sample.xml");
         Canonical can = Translator.castMnp(log, true);
-
-        System.out.println("refined to " + can.getTaggedSequences().size() + " cases");
+        can.refineData();
+        System.out.println("refined to " + 
+                can.getTaggedSequences().size() + " cases");
         
         List<ReferencedSequence> rSeqList = new ArrayList<>();
         for (TaggedList pCase : can.getTaggedSequences()) {
-//            System.out.println(pCase.list.get(0).getCaseId() + " " + pCase.list.get(0).getActivity());
+            
             ReferencedSequence rSeq = new ReferencedSequence(pCase.list);
             rSeq.reduceLoops();
             rSeqList.add(rSeq);
         }
         
-        
-//        ReferencedSequence rSeq = new ReferencedSequence(can.getTaggedSequences().get(0).list);
-//        rSeq.reduceLoops();
-        
-        List<ActivityMap> actMaps = ActivityMap.emulateReferencedSequences(rSeqList);
-        
+        List<ActivityMap> actMaps = ActivityMap.emulateReferencedSequences(rSeqList);       
         for (int i = 0; i < actMaps.size(); ++i) {
             GraphManager.activityMapToDot(actMaps.get(i), "data/mnp_act_" + i + ".dot");
         }
