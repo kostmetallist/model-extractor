@@ -1,12 +1,14 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class Event {
 
     private int caseId;
     private String activity;
     private LocalDateTime timestamp;
+    private Map<String, String> extra;
 
     public int getCaseId() {
         return this.caseId;
@@ -30,5 +32,13 @@ public class Event {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+    
+    public Map<String, String> getExtra() {
+        return this.extra;
+    }
+
+    public void setExtra(Map<String, String> extra) {
+        this.extra = extra;
     }
 }

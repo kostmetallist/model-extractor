@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import model.mnp.EventMnp;
 import model.mnp.LogMnp;
@@ -39,17 +41,23 @@ public class Translator {
                 Event event = new Event();
                 List<DataMXML.Attr> attrList = eMXML.getData().getAttrList();
                 String activity = null;
+                Map<String, String> extra = new HashMap<>();
                 for (DataMXML.Attr attr : attrList) {
                     if (attr.getName().equals("Activity")) {
                         activity = attr.getValue();
                         break;
                     }
+                    
+                    else {
+                        extra.put(attr.getName(), attr.getValue());
+                    }
                 }
 
-                event.setActivity(activity);
                 event.setCaseId(caseNum);
+                event.setActivity(activity);
                 event.setTimestamp(LocalDateTime.parse(eMXML.getTimestamp(), 
                         mxmlFormatter));
+                event.setExtra(extra);
                 eventList.add(event);
             }
 
@@ -137,6 +145,7 @@ public class Translator {
             EventMnp eventMnp = eventList.get(i);
             String requestId = null, processInstanceId = null, npId = null, 
                     eventName = null, timestamp = null;
+            Map<String, String> extra = new HashMap<>();
 
             for (EventMnp.ColumnMnp col : eventMnp.getColumnList()) {
                 switch (col.getName()) {
@@ -155,14 +164,12 @@ public class Translator {
                 case "TIMESTAMP":
                     timestamp = col.getValue().trim();
                     break;
+                default: 
+                    extra.put(col.getName(), col.getValue());
                 }
             }
 
             String[] caseDescriptor = { requestId, processInstanceId, npId };
-
-//			System.out.println("found caseDescriptor: |" + caseDescriptor[0] 
-//				+ "|" + caseDescriptor[1] + "|" + caseDescriptor[2] + "|");
-
             int caseIdx = mnpCases.refreshOrCreate(caseDescriptor);
 
             // new case that we did not seen earlier
@@ -174,6 +181,7 @@ public class Translator {
             event.setCaseId(caseIdx);
             event.setActivity(eventName);
             event.setTimestamp(LocalDateTime.parse(timestamp, mnpFormatter));
+            event.setExtra(extra);
             taggedSequences.get(caseIdx).list.add(event);
             i += step;
         }

@@ -1,13 +1,17 @@
 package extractor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import generating.Generator;
 import generating.Log4jGenerator;
-import model.*;
+import model.ActivityMap;
+import model.Canonical;
+import model.ReferencedSequence;
+import model.TaggedList;
+import model.TransSystem;
+import model.Translator;
 import model.mnp.LogMnp;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 
 
 public class Main {
@@ -29,9 +33,7 @@ public class Main {
 //        LogMnp log = LogMnp.extractLogMnp("data/mnp_sample.xml");
         Canonical can = Translator.castMnp(log, true);
 
-        System.out.println("before deleting similar: " + can.getTaggedSequences().size());
-        can.refineData();
-        System.out.println("after  deleting similar: " + can.getTaggedSequences().size());
+        System.out.println("refined to " + can.getTaggedSequences().size() + " cases");
         
         List<ReferencedSequence> rSeqList = new ArrayList<>();
         for (TaggedList pCase : can.getTaggedSequences()) {

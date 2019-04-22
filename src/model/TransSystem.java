@@ -17,50 +17,44 @@ public class TransSystem extends
 
     public static class TSVertex {
 
-        private List<String> state = new ArrayList<>();
+        private static int globalId = 0;
+        private int id;
+        private List<Event> state = new ArrayList<>();
 
         public TSVertex() {
+            this.id = globalId;
         }
 
-        public TSVertex(List<String> state) {
-            for (String each : state) {
+        public TSVertex(List<Event> state) {
+            
+            this.id = globalId++;
+            for (Event each : state) {
                 this.state.add(each);
             }
         }
 
-        public List<String> getState() {
+        public List<Event> getState() {
             return this.state;
         }
 
-        public List<String> getStateClone() {
+        public List<Event> getStateClone() {
 
-            List<String> clone = new ArrayList<>();
-            for (String each : this.state) {
-                clone.add(new String(each));
+            List<Event> clone = new ArrayList<>();
+            for (Event each : this.state) {
+                clone.add(each);
             }
             return clone;
         }
 
-        public void setState(List<String> state) {
-            for (String each : state) {
+        public void setState(List<Event> state) {
+            for (Event each : state) {
                 this.state.add(each);
             }
         }
 
         @Override
         public String toString() {
-
-            String result = "{";
-            for (String each : this.state) {
-                result += each + ", ";
-            }
-
-            // if we have added at least one element
-            if (result.length() > 1) {
-                result = result.substring(0, result.length() - 2);
-            }
-
-            return result + "}";
+            return "state " + this.id;
         }
     }
 
@@ -114,20 +108,6 @@ public class TransSystem extends
             posVertex = root;
             for (Event e : tList.list) {
 
-//                HashSet<TSEdge> outgoingEdges = 
-//                        new HashSet<>(this.edgesOf(posVertex));
-//                // edgesOf method indeed returned a set containing all
-//                // incident to posVertex edges. For receiving only outgoing
-//                // edges, we need to apply further filtering
-//                Set<TSEdge> ingoingEdges = new HashSet<>();
-//                for (TSEdge edge : outgoingEdges) {
-//                    if (getEdgeTarget(edge) == posVertex) {
-//                        ingoingEdges.add(edge);
-//                    }
-//                }
-//                // now we refined true outgoing edges set
-//                outgoingEdges.removeAll(ingoingEdges);
-
                 TSEdge matchedEdge = null;
                 for (TSEdge edge : outgoingEdgesOf(posVertex)) {
                     if (edge.getLabel().equals(e.getActivity())) {
@@ -153,10 +133,10 @@ public class TransSystem extends
                 // via newly created edge with a label e.activity
                 else {
 
-//					List<String> newState = posVertex.getStateClone(); 
-//					newState.add(e.getActivity());
-//					TSVertex newVertex = new TSVertex(newState); 
-                    TSVertex newVertex = new TSVertex(new ArrayList<String>());
+					List<Event> newState = posVertex.getStateClone(); 
+					newState.add(e);
+					TSVertex newVertex = new TSVertex(newState); 
+//                    TSVertex newVertex = new TSVertex(new ArrayList<String>());
                     this.addVertex(newVertex);
                     TSEdge newEdge = new TSEdge(e.getActivity(), tList.tag);
                     this.addEdge(posVertex, newVertex, newEdge);

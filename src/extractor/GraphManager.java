@@ -16,8 +16,8 @@ import org.jgrapht.io.DefaultAttribute;
 import org.jgrapht.io.IntegerComponentNameProvider;
 import org.jgrapht.io.StringComponentNameProvider;
 
-import model.TransSystem;
 import model.ActivityMap;
+import model.TransSystem;
 
 
 public class GraphManager {
