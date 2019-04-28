@@ -5,13 +5,9 @@ import java.util.List;
 
 import generating.Generator;
 import generating.Log4jGenerator;
-import model.ActivityMap;
-import model.Canonical;
-import model.ReferencedSequence;
-import model.TaggedList;
-import model.TransSystem;
-import model.Translator;
+import model.*;
 import model.mnp.LogMnp;
+import model.xes.LogXES;
 
 
 public class Main {
@@ -28,30 +24,36 @@ public class Main {
 //		tSys.emulateCanonical(can);
 //		GraphManager.transSystemToDot(tSys, "data/auto_model.dot");
 
-        LogMnp log = LogMnp.extractLogMnp("data/mnp_export.xml");
-        Canonical can = Translator.castMnp(log, true);
+        long startTime = System.nanoTime();
+//        LogMnp log = LogMnp.extractLogMnp("data/mnp_export.xml");
+        LogXES log = LogXES.extractLogXES("data/L1.xes");
+//        Canonical can = Translator.castMnp(log, true);
+        Canonical can = Translator.castXES(log);
         can.refineData();
         System.out.println("refined to " + 
                 can.getTaggedSequences().size() + " cases");
         
-        List<ReferencedSequence> rSeqList = new ArrayList<>();
-        for (TaggedList pCase : can.getTaggedSequences()) {
-            
-            ReferencedSequence rSeq = new ReferencedSequence(pCase.list);
-            rSeq.reduceLoops();
-            rSeqList.add(rSeq);
-        }
-        
-        List<ActivityMap> actMaps = ActivityMap.emulateReferencedSequences(rSeqList);       
-        for (int i = 0; i < actMaps.size(); ++i) {
-            GraphManager.activityMapToDot(actMaps.get(i), "data/mnp_act_" + i + ".dot");
-        }
+//        List<ReferencedSequence> rSeqList = new ArrayList<>();
+//        for (TaggedList pCase : can.getTaggedSequences()) {
+//            
+//            ReferencedSequence rSeq = new ReferencedSequence(pCase.list);
+//            rSeq.reduceLoops();
+//            rSeqList.add(rSeq);
+//        }
+//        
+//        List<ActivityMap> actMaps = ActivityMap.emulateReferencedSequences(rSeqList);       
+//        for (int i = 0; i < actMaps.size(); ++i) {
+//            GraphManager.activityMapToDot(actMaps.get(i), "data/mnp_act_" + i + ".dot");
+//        }
 
         TransSystem tSys = new TransSystem();
         tSys.emulateCanonical(can);
         tSys.exportTestData("data/testcases.tcxml");
-        GraphManager.transSystemToDot(tSys, "data/mnp_model.dot");
+//        GraphManager.transSystemToDot(tSys, "data/mnp_model.dot");
+        GraphManager.transSystemToDot(tSys, "data/xes_model.dot");
 
+        long finishTime = System.nanoTime();
+        System.out.println("Time elapsed: " + (finishTime-startTime)/1000000);
 
 //		for (TaggedList each : can.getTaggedSequences()) {
 //			System.out.println(each.list.size());

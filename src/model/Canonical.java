@@ -26,8 +26,8 @@ public class Canonical {
     // Initially all the tags must be 1, later they may be merged with
     // appropriate counter increment.
     private List<TaggedList> taggedSequences = new ArrayList<>();
-    private double prefixFrequencyThreshold = 0.1;
-    private double postfixFrequencyThreshold = 0.1;
+    private double prefixFrequencyThreshold = 0.15;
+    private double postfixFrequencyThreshold = 0.15;
 	
 	
     public List<TaggedList> getTaggedSequences() {
@@ -156,7 +156,7 @@ public class Canonical {
                 if (res == CompareResult.PREFIX) {
                     
                     foundPrefs++;
-                    if (lrf > prefixFrequencyThreshold) {
+                    if (lrf < prefixFrequencyThreshold) {
                         
                         filteredPrefs++;
                         toRemove.add(candidate);
@@ -166,7 +166,7 @@ public class Canonical {
                 if (res == CompareResult.POSTFIX) {
                     
                     foundPosts++;
-                    if (lrf > postfixFrequencyThreshold) {
+                    if (lrf < postfixFrequencyThreshold) {
                         
                         filteredPosts++;
                         toRemove.add(candidate);

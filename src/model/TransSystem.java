@@ -27,7 +27,7 @@ public class TransSystem extends
         private List<Event> state = new ArrayList<>();
 
         public TSVertex() {
-            this.id = globalId;
+            this.id = globalId++;
         }
 
         public TSVertex(List<Event> state) {

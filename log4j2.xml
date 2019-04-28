@@ -3,7 +3,7 @@
     <Appenders>
     	
         <File name="File1" fileName="log4j2.log" bufferedIO="false">
-        	<PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        	<PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5level %logger{36} - %msg %pid{process-id}%n"/>
   		</File>
     </Appenders>
     <Loggers>

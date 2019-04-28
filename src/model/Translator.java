@@ -7,13 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import model.mnp.EventMnp;
-import model.mnp.LogMnp;
-import model.mxml.CaseMXML;
-import model.mxml.DataMXML;
-import model.mxml.EventMXML;
-import model.mxml.LogMXML;
-import model.mxml.ProcessMXML;
+import model.mnp.*;
+import model.mxml.*;
+import model.xes.*;
 
 public class Translator {
 
@@ -21,6 +17,8 @@ public class Translator {
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     private static DateTimeFormatter mnpFormatter = 
             DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
+    private static DateTimeFormatter xesFormatter = 
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     public static Canonical castMXML(LogMXML log) {
 
@@ -45,7 +43,6 @@ public class Translator {
                 for (DataMXML.Attr attr : attrList) {
                     if (attr.getName().equals("Activity")) {
                         activity = attr.getValue();
-                        break;
                     }
                     
                     else {
@@ -189,6 +186,52 @@ public class Translator {
         //
         mnpCases.showCases();
         //
+        output.setTaggedSequences(taggedSequences);
+        return output;
+    }
+    
+    public static Canonical castXES(LogXES log) {
+        
+        Canonical output = new Canonical();
+        if (log.getCaseList().isEmpty()) {
+            return output;
+        }
+        
+        List<TaggedList> taggedSequences = new ArrayList<>();
+        int caseNum = 0;
+        for (CaseXES cXES : log.getCaseList()) {
+
+            List<Event> eventList = new ArrayList<>();
+            for (EventXES eXES : cXES.getEventList()) {
+
+                Event event = new Event();
+                String activity = null;
+                List<EventXES.StringXES> stringList = eXES.getStringList();
+                Map<String, String> extra = new HashMap<>();
+                
+                for (EventXES.StringXES str : stringList) {
+                    if (str.getKey().equals("concept:name")) {
+                        activity = str.getValue();
+                    }
+                    
+                    else {
+                        extra.put(str.getKey(), str.getValue());
+                    }
+                }
+
+                event.setCaseId(caseNum);
+                event.setActivity(activity);
+                event.setTimestamp(
+                        LocalDateTime.parse(eXES.getDate().getValue(), 
+                        xesFormatter));
+                event.setExtra(extra);
+                eventList.add(event);
+            }
+
+            taggedSequences.add(new TaggedList(eventList, 1));
+            caseNum++;
+        }
+        
         output.setTaggedSequences(taggedSequences);
         return output;
     }
