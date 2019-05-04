@@ -40,20 +40,6 @@ public class Canonical {
 	
     private CompareResult compareByActivities(List<Event> first, 
             List<Event> second) {
-
-//        for (int i = 0; i < Math.min(first.size(), second.size()); ++i) {
-//            if (!first.get(i).getActivity().
-//                equals(second.get(i).getActivity())) {
-//
-//                return CompareResult.DIFFERENT;
-//            }
-//        }
-//
-//        if (first.size() == second.size()) {
-//            return CompareResult.SAME;
-//        }
-//
-//        return CompareResult.PREFIX;
         
         if (first.size() == second.size()) {
         
@@ -184,7 +170,12 @@ public class Canonical {
     // aggregation method for summarizing all internal processing
     public void refineData() {
         
+        System.out.println("refining canonical model...");
+        System.out.println("initial cases number: " + 
+                this.taggedSequences.size());
         this.mergeSimilar();
+        System.out.println("merged to " + 
+                this.taggedSequences.size() + " case classes");
         this.filterOutAnyfixes();
     }
 }

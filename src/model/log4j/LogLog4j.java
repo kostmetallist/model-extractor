@@ -37,7 +37,6 @@ public class LogLog4j {
             
             fr = new FileReader(file);
             br = new BufferedReader(fr);
-            List<EventLog4j> eventList = new ArrayList<>();
             String line = br.readLine();
             
             while (line != null) {

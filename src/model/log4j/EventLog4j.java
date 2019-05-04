@@ -8,6 +8,7 @@ public class EventLog4j {
     public String methodName;
     public String extraInfo;
     
+    // provides naive parsing log entries 
     public static EventLog4j parseLogEntry(String entry, String pattern) {
         
         EventLog4j event = new EventLog4j();

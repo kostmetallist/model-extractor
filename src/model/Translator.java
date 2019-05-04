@@ -7,18 +7,66 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import model.log4j.*;
 import model.mnp.*;
 import model.mxml.*;
 import model.xes.*;
 
 public class Translator {
 
-    private static DateTimeFormatter mxmlFormatter = 
+    private static final DateTimeFormatter log4jFormatter = 
+            DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm:ss");
+    private static final DateTimeFormatter mxmlFormatter = 
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    private static DateTimeFormatter mnpFormatter = 
+    private static final DateTimeFormatter mnpFormatter = 
             DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
-    private static DateTimeFormatter xesFormatter = 
+    private static final DateTimeFormatter xesFormatter = 
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    
+    public static Canonical castLog4j(LogLog4j log) {
+        
+        Canonical output = new Canonical();
+        if (log.getEventList().isEmpty()) {
+            return output;
+        }
+        
+        List<TaggedList> taggedSequences = new ArrayList<>();
+        Map<Integer, Integer> caseNumbers = new HashMap<>();
+        
+        for (EventLog4j each : log.getEventList()) {
+            
+            int caseId = Integer.parseInt(each.processIdentifier); 
+            Integer correspondingIdx = caseNumbers.get(caseId);
+            TaggedList tList = null;
+            
+            // haven't met such caseId
+            if (correspondingIdx == null) {
+                
+                List<Event> events = new ArrayList<>();
+                tList = new TaggedList(events, 1);
+                caseNumbers.put(caseId, taggedSequences.size());
+                taggedSequences.add(tList);
+            }
+            
+            else {
+                tList = taggedSequences.get(correspondingIdx);
+            }
+            
+            Event event = new Event();
+            event.setCaseId(caseId);
+            event.setActivity(each.className + ":" + each.methodName);
+            event.setTimestamp(LocalDateTime.parse(each.timestamp, 
+                    log4jFormatter));
+            
+            Map<String, String> extra = new HashMap<>();
+            extra.put("Data", each.extraInfo);
+            event.setExtra(extra);
+            tList.list.add(event);
+        }
+        
+        output.setTaggedSequences(taggedSequences);
+        return output;
+    }
 
     public static Canonical castMXML(LogMXML log) {
 
@@ -37,21 +85,17 @@ public class Translator {
             for (EventMXML eMXML : cMXML.getEventList()) {
 
                 Event event = new Event();
-                List<DataMXML.Attr> attrList = eMXML.getData().getAttrList();
-                String activity = null;
                 Map<String, String> extra = new HashMap<>();
-                for (DataMXML.Attr attr : attrList) {
-                    if (attr.getName().equals("Activity")) {
-                        activity = attr.getValue();
-                    }
+                if (eMXML.getData() != null) {
                     
-                    else {
+                    List<DataMXML.Attr> attrs = eMXML.getData().getAttrList();
+                    for (DataMXML.Attr attr : attrs) {
                         extra.put(attr.getName(), attr.getValue());
                     }
                 }
 
                 event.setCaseId(caseNum);
-                event.setActivity(activity);
+                event.setActivity(eMXML.getWorkflowModelElement());
                 event.setTimestamp(LocalDateTime.parse(eMXML.getTimestamp(), 
                         mxmlFormatter));
                 event.setExtra(extra);
