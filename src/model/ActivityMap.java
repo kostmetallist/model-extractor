@@ -1,5 +1,9 @@
 package model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +18,7 @@ public class ActivityMap extends
     DefaultDirectedGraph<ActivityMap.AMVertex, DefaultEdge> {
     
     private static final long serialVersionUID = 19756914L;
+    private List<ReferencedSequence> relatedContent; 
 
     public static class AMVertex {        
         private String activity;
@@ -35,6 +40,10 @@ public class ActivityMap extends
     
     public ActivityMap() {
         super(DefaultEdge.class);
+    }
+    
+    public List<ReferencedSequence> getRelatedContent() {
+        return this.relatedContent;
     }
     
     public static List<ActivityMap> emulateReferencedSequences(
@@ -59,22 +68,33 @@ public class ActivityMap extends
 
             ActivityMap actMap = new ActivityMap();
             AMVertex root = new AMVertex(entry.getKey());
+            actMap.relatedContent = new ArrayList<>();
             actMap.addVertex(root);
             
             // iterating over cases having the same first activity
             for (Integer idx : entry.getValue()) {
                 
                 ReferencedSequence rs = refSeqList.get(idx);
+                actMap.relatedContent.add(rs);
+
                 List<Event> eventList = rs.getContent().x;
                 List<HashSet<Integer>> refList = rs.getContent().y;
                 List<AMVertex> visitedVertices = new ArrayList<>();
                 List<HashSet<AMVertex>> pendingReferals = new ArrayList<>();
+                
                 for (int i = 0; i < refList.size(); ++i) {
                     pendingReferals.add(new HashSet<>());
                 }
                 
                 AMVertex curVertex = root;
                 visitedVertices.add(curVertex);
+                
+                // references in refList[0] may be only to the same index 0 
+                if (!refList.get(0).isEmpty()) {
+                    DefaultEdge e = new DefaultEdge();
+                    actMap.addEdge(root, root, e);
+                }
+                    
                 for (int i = 1; i < eventList.size(); ++i) {
                     
                     String activity = eventList.get(i).getActivity();
@@ -108,12 +128,7 @@ public class ActivityMap extends
                         }
                         
                         else {
-                            if (refIdx >= refList.size()) {
-                                System.err.println(
-                                        "Alarm: invalid reference found");
-                            }
-                            
-                            else {
+                            if (refIdx < refList.size()) {
                                 pendingReferals.get(refIdx).add(curVertex);
                             }
                         }
@@ -132,5 +147,60 @@ public class ActivityMap extends
         }
         
         return atlas;
+    }
+    
+    public void exportTestData(String path) {
+        
+        File file = new File(path);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        try {
+            
+            fw = new FileWriter(file);
+            bw = new BufferedWriter(fw);
+            bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+            bw.newLine();
+            
+            for (ReferencedSequence rSeq : this.relatedContent) {
+                
+                bw.write("<Traversal>");
+                bw.newLine();
+                Pair<List<Event>, List<HashSet<Integer>>> content = 
+                        rSeq.getContent();
+                for (int i = 0; i < content.x.size(); ++i) {
+                    
+                    bw.write("  <Action>");
+                    bw.write(content.x.get(i).getActivity());
+                    bw.write("  </Action>");
+                    bw.newLine();
+                    bw.write("  <References>");
+                    for (Integer refIdx : content.y.get(i)) {
+                        bw.write(refIdx + " ");
+                    }
+                    
+                    bw.write("  </References>");
+                    bw.newLine();
+                }
+                
+                bw.write("</Traversal>");
+                bw.newLine();
+            }
+        }
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        finally {
+            try {
+                bw.close();
+                fw.close();
+            }
+            
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

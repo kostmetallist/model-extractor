@@ -62,8 +62,8 @@ public class GraphManager {
                 new ComponentNameProvider<TransSystem.TSEdge>() {
                     @Override
                     public String getName(TransSystem.TSEdge edge) {
-                        return "  " + edge.getLabel() + " " + 
-                                (int) edge.getWeight() + "  ";
+                        return "  " + edge.getLabel() + " (" + 
+                                (int) edge.getWeight() + ")  ";
                     }
                 }, 
                 new ComponentAttributeProvider<TransSystem.TSVertex>() {

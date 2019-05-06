@@ -166,9 +166,11 @@ public class TransSystem extends
             
             fw = new FileWriter(file);
             bw = new BufferedWriter(fw);
-            
             GraphIterator<TSVertex, TSEdge> iter = 
                     new DepthFirstIterator<TSVertex, TSEdge>(this);
+            bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+            bw.newLine();
+            
             while (iter.hasNext()) {
                 
                 TSVertex visited = iter.next();

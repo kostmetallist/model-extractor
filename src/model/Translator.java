@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class Translator {
             Event event = new Event();
             event.setCaseId(caseId);
             event.setActivity(each.className + ":" + each.methodName);
-            event.setTimestamp(LocalDateTime.parse(each.timestamp, 
+            event.setTimestamp(ZonedDateTime.parse(each.timestamp, 
                     log4jFormatter));
             
             Map<String, String> extra = new HashMap<>();
@@ -96,7 +96,7 @@ public class Translator {
 
                 event.setCaseId(caseNum);
                 event.setActivity(eMXML.getWorkflowModelElement());
-                event.setTimestamp(LocalDateTime.parse(eMXML.getTimestamp(), 
+                event.setTimestamp(ZonedDateTime.parse(eMXML.getTimestamp(), 
                         mxmlFormatter));
                 event.setExtra(extra);
                 eventList.add(event);
@@ -221,7 +221,7 @@ public class Translator {
             Event event = new Event();
             event.setCaseId(caseIdx);
             event.setActivity(eventName);
-            event.setTimestamp(LocalDateTime.parse(timestamp, mnpFormatter));
+            event.setTimestamp(ZonedDateTime.parse(timestamp, mnpFormatter));
             event.setExtra(extra);
             taggedSequences.get(caseIdx).list.add(event);
             i += step;
@@ -266,7 +266,7 @@ public class Translator {
                 event.setCaseId(caseNum);
                 event.setActivity(activity);
                 event.setTimestamp(
-                        LocalDateTime.parse(eXES.getDate().getValue(), 
+                        ZonedDateTime.parse(eXES.getDate().getValue(), 
                         xesFormatter));
                 event.setExtra(extra);
                 eventList.add(event);

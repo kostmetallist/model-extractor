@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.temporal.ChronoUnit;
 
 
 /**
@@ -26,9 +27,10 @@ public class Canonical {
     // Initially all the tags must be 1, later they may be merged with
     // appropriate counter increment.
     private List<TaggedList> taggedSequences = new ArrayList<>();
-    private double prefixFrequencyThreshold = 0.15;
-    private double postfixFrequencyThreshold = 0.15;
-	
+    private double prefixFrequencyThreshold;
+    private double postfixFrequencyThreshold;
+    private double missedFrequencyThreshold;
+    private long deltaT;
 	
     public List<TaggedList> getTaggedSequences() {
         return this.taggedSequences;
@@ -37,7 +39,23 @@ public class Canonical {
     public void setTaggedSequences(List<TaggedList> taggedSequences) {
         this.taggedSequences = taggedSequences;
     }
-	
+    
+    public void setPrefixFrequencyThreshold(double prefixFrequencyThreshold) {
+        this.prefixFrequencyThreshold = prefixFrequencyThreshold;
+    }
+
+    public void setPostfixFrequencyThreshold(double postfixFrequencyThreshold) {
+        this.postfixFrequencyThreshold = postfixFrequencyThreshold;
+    }
+
+    public void setMissedFrequencyThreshold(double missedFrequencyThreshold) {
+        this.missedFrequencyThreshold = missedFrequencyThreshold;
+    }
+
+    public void setDeltaT(long deltaT) {
+        this.deltaT = deltaT;
+    }
+
     private CompareResult compareByActivities(List<Event> first, 
             List<Event> second) {
         
@@ -162,9 +180,106 @@ public class Canonical {
         }
         
         taggedSequences.removeAll(toRemove);
-        System.out.println("Successfully filtered out:");
-        System.out.println("    prefixes: " + filteredPrefs + "/" + foundPrefs);
-        System.out.println("   postfixes: " + filteredPosts + "/" + foundPosts);
+        System.out.println("successfully filtered out:");
+        System.out.println("--prefixes: " + filteredPrefs + "/" + foundPrefs);
+        System.out.println("--postfixes: " + filteredPosts + "/" + foundPosts);
+    }
+    
+    // returns null if considered as not containing missed events
+    private TaggedList locateMissedEvent(TaggedList tList1, TaggedList tList2) {
+        
+        int n1 = tList1.list.size();
+        int n2 = tList2.list.size();
+        
+        // checking sequences that are different by one event
+        if (Math.abs(n1 - n2) != 1) {
+            return null;
+        }
+        
+        TaggedList candidate = (n1 > n2)? tList2: tList1;
+        TaggedList masterList = (candidate == tList1)? tList2: tList1;
+        double lrf = candidate.tag / (masterList.tag + candidate.tag);
+        if (lrf > this.missedFrequencyThreshold) {
+            return null;
+        }
+        
+        List<Event> reduced = candidate.list;
+        List<Event> sterling = masterList.list;
+        boolean untilMode = true;
+        
+        for (int i = 0; i < candidate.list.size(); ++i) {
+            
+            // until-missed mode
+            if (untilMode) {
+                if (!reduced.get(i).getActivity().
+                    equals(sterling.get(i).getActivity())) {
+                    
+                    // skipping such sequence pair because postfix cases
+                    // were filtered on the previous refinement stage 
+                    if (i == 0) {
+                        return null;
+                    }
+                    
+                    List<Event> reducedFragment = reduced.subList(i-1, i+1);
+                    List<Event> sterlingFragment = sterling.subList(i-1, i+2);
+                    
+                    // further event equality checking
+                    if (!reducedFragment.get(1).getActivity().
+                        equals(sterlingFragment.get(2).getActivity())) {
+                        
+                        return null;
+                    }
+                    
+                    // timestamp checking 
+                    if (Math.abs(reducedFragment.get(0).getTimestamp().
+                            until(reducedFragment.get(1).getTimestamp(), 
+                                    ChronoUnit.MILLIS) - 
+                            sterlingFragment.get(0).getTimestamp().
+                            until(sterlingFragment.get(2).getTimestamp(), 
+                                    ChronoUnit.MILLIS)) > this.deltaT) {
+                        
+                        return null;
+                    }
+                    
+                    untilMode = false;
+                }
+            }
+            
+            // after-missed mode
+            else {
+                if (!reduced.get(i).getActivity().
+                    equals(sterling.get(i+1).getActivity())) {
+                        
+                    return null;
+                }
+            }
+        }
+        
+        return candidate;
+    }
+    
+    public void filterOutMissedEvents() {
+        
+        int filteredCases = 0;
+        List<TaggedList> toRemove = new ArrayList<>();
+        
+        for (int i = 0; i < this.taggedSequences.size(); ++i) {
+            for (int j = i+1; j < this.taggedSequences.size(); ++j) {
+                
+                TaggedList tList1 = this.taggedSequences.get(i);
+                TaggedList tList2 = this.taggedSequences.get(j);
+                TaggedList candidate = locateMissedEvent(tList1, tList2);
+                
+                if (candidate != null) {
+                    filteredCases++;
+                    toRemove.add(candidate);
+                }
+            }
+        }
+        
+        this.taggedSequences.removeAll(toRemove);
+        System.out.println("successfully filtered out:");
+        System.out.println("--cases w/missed event: " + filteredCases);
     }
 
     // aggregation method for summarizing all internal processing
@@ -177,5 +292,6 @@ public class Canonical {
         System.out.println("merged to " + 
                 this.taggedSequences.size() + " case classes");
         this.filterOutAnyfixes();
+        this.filterOutMissedEvents();
     }
 }

@@ -1,13 +1,13 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 public class Event {
 
     private int caseId;
     private String activity;
-    private LocalDateTime timestamp;
+    private ZonedDateTime timestamp;
     private Map<String, String> extra;
 
     public int getCaseId() {
@@ -26,11 +26,11 @@ public class Event {
         this.activity = activity;
     }
 
-    public LocalDateTime getTimestamp() {
+    public ZonedDateTime getTimestamp() {
         return this.timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(ZonedDateTime timestamp) {
         this.timestamp = timestamp;
     }
     

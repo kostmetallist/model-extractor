@@ -8,7 +8,6 @@ import java.util.List;
  * Describes list of Event class objects where each of them can have a set of
  * references to another elements of the sequence.
  * 
- * @author ko-st
  */
 public class ReferencedSequence {
 
@@ -142,16 +141,49 @@ public class ReferencedSequence {
         }
     }
     
-    public void showContent() {
+    private boolean isEqual(ReferencedSequence another) {
         
-        List<Event> eventList = this.content.x;
-        List<HashSet<Integer>> refList = this.content.y;
-        for (int i = 0; i < eventList.size(); ++i) {
-            System.out.print(eventList.get(i).getActivity() + ": ");
-            for (Integer each : refList.get(i)) {
-                System.out.print(each + " ");
-            }
-            System.out.println();
+        Pair<List<Event>, List<HashSet<Integer>>> content1 = this.content;
+        Pair<List<Event>, List<HashSet<Integer>>> content2 = another.content;
+        if (content1.x.size() != content2.x.size()) {
+            return false;
         }
+        
+        for (int i = 0; i < content1.x.size(); ++i) {
+            
+            if (!content1.x.get(i).getActivity().
+                equals(content2.x.get(i).getActivity()) || 
+                !content1.y.get(i).
+                equals(content2.y.get(i))) {
+                
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public static List<ReferencedSequence> generalizeModel(Canonical can) {
+        
+        List<ReferencedSequence> rSeqList = new ArrayList<>();
+        
+        for (TaggedList tList : can.getTaggedSequences()) {
+      
+            ReferencedSequence rSeq = new ReferencedSequence(tList.list);
+            rSeq.reduceLoops();
+            
+            // removing similar sequences
+            boolean isUnique = true;
+            for (ReferencedSequence each : rSeqList) {
+                if (rSeq.isEqual(each)) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            
+            if (isUnique) { rSeqList.add(rSeq); }
+        }
+        
+        return rSeqList;
     }
 }
