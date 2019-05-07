@@ -1,7 +1,9 @@
 package model;
 
 import java.time.ZonedDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,8 @@ import model.xes.*;
 public class Translator {
 
     private static final DateTimeFormatter log4jFormatter = 
-            DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm:ss");
+            DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm:ss").
+            withZone(ZoneId.of("UTC"));
     private static final DateTimeFormatter mxmlFormatter = 
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     private static final DateTimeFormatter mnpFormatter = 
@@ -25,15 +28,23 @@ public class Translator {
     
     public static Canonical castLog4j(LogLog4j log) {
         
+        List<EventLog4j> events = log.getEventList();
         Canonical output = new Canonical();
-        if (log.getEventList().isEmpty()) {
+        if (events.isEmpty()) {
             return output;
         }
+        
+        Event earliest = new Event(), 
+                latest = new Event();
+        ZonedDateTime found = ZonedDateTime.parse(events.get(0).timestamp, 
+                log4jFormatter);
+        earliest.setTimestamp(found);
+        latest.setTimestamp(found);
         
         List<TaggedList> taggedSequences = new ArrayList<>();
         Map<Integer, Integer> caseNumbers = new HashMap<>();
         
-        for (EventLog4j each : log.getEventList()) {
+        for (EventLog4j each : events) {
             
             int caseId = Integer.parseInt(each.processIdentifier); 
             Integer correspondingIdx = caseNumbers.get(caseId);
@@ -42,8 +53,8 @@ public class Translator {
             // haven't met such caseId
             if (correspondingIdx == null) {
                 
-                List<Event> events = new ArrayList<>();
-                tList = new TaggedList(events, 1);
+                List<Event> eventList = new ArrayList<>();
+                tList = new TaggedList(eventList, 1);
                 caseNumbers.put(caseId, taggedSequences.size());
                 taggedSequences.add(tList);
             }
@@ -62,7 +73,25 @@ public class Translator {
             extra.put("Data", each.extraInfo);
             event.setExtra(extra);
             tList.list.add(event);
+            
+            if (earliest.getTimestamp().
+                    until(event.getTimestamp(), ChronoUnit.MILLIS) < 0) {
+                earliest = event;
+            }
+            
+            if (event.getTimestamp().
+                    until(latest.getTimestamp(), ChronoUnit.MILLIS) < 0) {
+                latest = event;
+            }
         }
+        
+        ZonedDateTime from = earliest.getTimestamp(), 
+                to = latest.getTimestamp(); 
+        System.out.println("parsed log with " + events.size() + " events");
+        System.out.println("captured time fragment from " + 
+                from.format(log4jFormatter) + " to " + 
+                to.format(log4jFormatter) + " (" + 
+                from.until(to, ChronoUnit.MILLIS) + " ms)");
         
         output.setTaggedSequences(taggedSequences);
         return output;
@@ -75,9 +104,14 @@ public class Translator {
             return output;
         }
 
+        int eventNumber = 0, 
+                caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();
         ProcessMXML process = log.getProcessList().get(0);
-        int caseNum = 0;
+        ZonedDateTime from = ZonedDateTime.of(2039, 1, 1, 
+                0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime to = ZonedDateTime.of(1970, 1, 1, 
+                0, 0, 0, 0, ZoneId.systemDefault());
 
         for (CaseMXML cMXML : process.getCaseList()) {
 
@@ -100,12 +134,27 @@ public class Translator {
                         mxmlFormatter));
                 event.setExtra(extra);
                 eventList.add(event);
+                eventNumber++;
+                
+                if (from.until(event.getTimestamp(), ChronoUnit.MILLIS) < 0) {
+                    from = event.getTimestamp();
+                }
+                
+                if (event.getTimestamp().until(to, ChronoUnit.MILLIS) < 0) {
+                    to = event.getTimestamp();
+                }
             }
 
             taggedSequences.add(new TaggedList(eventList, 1));
             caseNum++;
         }
 
+        System.out.println("parsed log with " + eventNumber + " events");
+        System.out.println("captured time fragment from " + 
+                from.format(log4jFormatter) + " to " + 
+                to.format(log4jFormatter) + " (" + 
+                from.until(to, ChronoUnit.MILLIS) + " ms)");
+        
         output.setTaggedSequences(taggedSequences);
         return output;
     }
@@ -241,8 +290,14 @@ public class Translator {
             return output;
         }
         
+        int eventNumber = 0, 
+                caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();
-        int caseNum = 0;
+        ZonedDateTime from = ZonedDateTime.of(2039, 1, 1, 
+                0, 0, 0, 0, ZoneId.systemDefault());
+        ZonedDateTime to = ZonedDateTime.of(1970, 1, 1, 
+                0, 0, 0, 0, ZoneId.systemDefault());
+        
         for (CaseXES cXES : log.getCaseList()) {
 
             List<Event> eventList = new ArrayList<>();
@@ -270,11 +325,26 @@ public class Translator {
                         xesFormatter));
                 event.setExtra(extra);
                 eventList.add(event);
+                eventNumber++;
+                
+                if (from.until(event.getTimestamp(), ChronoUnit.MILLIS) < 0) {
+                    from = event.getTimestamp();
+                }
+                
+                if (event.getTimestamp().until(to, ChronoUnit.MILLIS) < 0) {
+                    to = event.getTimestamp();
+                }
             }
 
             taggedSequences.add(new TaggedList(eventList, 1));
             caseNum++;
         }
+        
+        System.out.println("parsed log with " + eventNumber + " events");
+        System.out.println("captured time fragment from " + 
+                from.format(log4jFormatter) + " to " + 
+                to.format(log4jFormatter) + " (" + 
+                from.until(to, ChronoUnit.MILLIS) + " ms)");
         
         output.setTaggedSequences(taggedSequences);
         return output;

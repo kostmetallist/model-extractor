@@ -141,9 +141,9 @@ public class InterfaceWindow extends JFrame {
                         ReferencedSequence.generalizeModel(associatedModel);
                 
                 System.out.println("successfully generalized model");
-                System.out.println("--former case class number: " + 
+                System.out.println("--former cases number: " + 
                         associatedModel.getTaggedSequences().size());
-                System.out.println("--generalized case classes: " + 
+                System.out.println("--generalized cases number: " + 
                         refSeqList.size());
             }
         });

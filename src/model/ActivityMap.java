@@ -64,6 +64,8 @@ public class ActivityMap extends
             mapCatalog.put(firstActivity, associatedIndices);
         }
         
+        System.out.println("discovered " + 
+                mapCatalog.size() + " equivalence case class(es)");
         for (Map.Entry<String, Set<Integer>> entry : mapCatalog.entrySet()) {
 
             ActivityMap actMap = new ActivityMap();
@@ -88,11 +90,19 @@ public class ActivityMap extends
                 
                 AMVertex curVertex = root;
                 visitedVertices.add(curVertex);
-                
-                // references in refList[0] may be only to the same index 0 
-                if (!refList.get(0).isEmpty()) {
-                    DefaultEdge e = new DefaultEdge();
-                    actMap.addEdge(root, root, e);
+                 
+                // processing root element references
+                for (Integer refIdx : refList.get(0)) {
+                    if (refIdx == 0) {
+                        DefaultEdge edge = new DefaultEdge();
+                        actMap.addEdge(root, root, edge);
+                    }
+                    
+                    else {
+                        if (refIdx < refList.size()) {
+                            pendingReferals.get(refIdx).add(curVertex);
+                        }
+                    }
                 }
                     
                 for (int i = 1; i < eventList.size(); ++i) {

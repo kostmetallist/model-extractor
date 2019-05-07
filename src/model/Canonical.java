@@ -290,7 +290,7 @@ public class Canonical {
                 this.taggedSequences.size());
         this.mergeSimilar();
         System.out.println("merged to " + 
-                this.taggedSequences.size() + " case classes");
+                this.taggedSequences.size() + " case(s)");
         this.filterOutAnyfixes();
         this.filterOutMissedEvents();
     }
