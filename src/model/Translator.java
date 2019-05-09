@@ -25,6 +25,11 @@ public class Translator {
             DateTimeFormatter.ofPattern("dd.MM.yy HH:mm:ss");
     private static final DateTimeFormatter xesFormatter = 
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private static String customPattern = null;
+    
+    public static void setCustomPattern(String pattern) {
+        customPattern = pattern;
+    }
     
     public static Canonical castLog4j(LogLog4j log) {
         
@@ -34,10 +39,12 @@ public class Translator {
             return output;
         }
         
+        DateTimeFormatter formatter = (customPattern == null)? log4jFormatter: 
+            DateTimeFormatter.ofPattern(customPattern);
         Event earliest = new Event(), 
                 latest = new Event();
         ZonedDateTime found = ZonedDateTime.parse(events.get(0).timestamp, 
-                log4jFormatter);
+                formatter);
         earliest.setTimestamp(found);
         latest.setTimestamp(found);
         
@@ -67,7 +74,7 @@ public class Translator {
             event.setCaseId(caseId);
             event.setActivity(each.className + ":" + each.methodName);
             event.setTimestamp(ZonedDateTime.parse(each.timestamp, 
-                    log4jFormatter));
+                    formatter));
             
             Map<String, String> extra = new HashMap<>();
             extra.put("Data", each.extraInfo);
@@ -89,8 +96,8 @@ public class Translator {
                 to = latest.getTimestamp(); 
         System.out.println("parsed log with " + events.size() + " events");
         System.out.println("captured time fragment from " + 
-                from.format(log4jFormatter) + " to " + 
-                to.format(log4jFormatter) + " (" + 
+                from.format(formatter) + " to " + 
+                to.format(formatter) + " (" + 
                 from.until(to, ChronoUnit.MILLIS) + " ms)");
         
         output.setTaggedSequences(taggedSequences);
@@ -104,6 +111,8 @@ public class Translator {
             return output;
         }
 
+        DateTimeFormatter formatter = (customPattern == null)? mxmlFormatter: 
+            DateTimeFormatter.ofPattern(customPattern);
         int eventNumber = 0, 
                 caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();
@@ -131,7 +140,7 @@ public class Translator {
                 event.setCaseId(caseNum);
                 event.setActivity(eMXML.getWorkflowModelElement());
                 event.setTimestamp(ZonedDateTime.parse(eMXML.getTimestamp(), 
-                        mxmlFormatter));
+                        formatter));
                 event.setExtra(extra);
                 eventList.add(event);
                 eventNumber++;
@@ -151,8 +160,8 @@ public class Translator {
 
         System.out.println("parsed log with " + eventNumber + " events");
         System.out.println("captured time fragment from " + 
-                from.format(log4jFormatter) + " to " + 
-                to.format(log4jFormatter) + " (" + 
+                from.format(formatter) + " to " + 
+                to.format(formatter) + " (" + 
                 from.until(to, ChronoUnit.MILLIS) + " ms)");
         
         output.setTaggedSequences(taggedSequences);
@@ -290,6 +299,8 @@ public class Translator {
             return output;
         }
         
+        DateTimeFormatter formatter = (customPattern == null)? xesFormatter: 
+            DateTimeFormatter.ofPattern(customPattern);
         int eventNumber = 0, 
                 caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();
@@ -322,7 +333,7 @@ public class Translator {
                 event.setActivity(activity);
                 event.setTimestamp(
                         ZonedDateTime.parse(eXES.getDate().getValue(), 
-                        xesFormatter));
+                        formatter));
                 event.setExtra(extra);
                 eventList.add(event);
                 eventNumber++;
@@ -342,8 +353,8 @@ public class Translator {
         
         System.out.println("parsed log with " + eventNumber + " events");
         System.out.println("captured time fragment from " + 
-                from.format(log4jFormatter) + " to " + 
-                to.format(log4jFormatter) + " (" + 
+                from.format(formatter) + " to " + 
+                to.format(formatter) + " (" + 
                 from.until(to, ChronoUnit.MILLIS) + " ms)");
         
         output.setTaggedSequences(taggedSequences);

@@ -64,63 +64,6 @@ public class InterfaceWindow extends JFrame {
         final JLabel fileChooseLabel = new JLabel("Specify event log file ");
         controlPanel.add(fileChooseLabel);
         final JButton buttonOpenFile = new JButton("Open file...");
-        buttonOpenFile.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                
-                JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter filter = 
-                    new FileNameExtensionFilter("*.xes, *.mxml, *.log", 
-                            "xes", "mxml", "log");
-                fileChooser.setFileFilter(filter);
-                
-                int eCode = fileChooser.showOpenDialog(controlPanel);
-                if (eCode != JFileChooser.APPROVE_OPTION) {
-                    
-                    System.out.println("no file has been chosen; aborting");
-                    return;
-                }
-                
-                String path = fileChooser.getSelectedFile().getAbsolutePath();
-                System.out.println("opening file " + path + "...");
-                String extension = path.substring(
-                        path.lastIndexOf(".")+1, path.length());
-                System.out.println("detected ." + extension + " extension");
-                switch (extension) {
-                
-                    case "log":
-                        
-                        LogLog4j log4j = LogLog4j.extractLogLog4j(path);
-                        associatedModel = Translator.castLog4j(log4j);
-                        break;
-                        
-                    case "mxml":
-                        
-                        LogMXML logMXML = LogMXML.extractLogMXML(path);
-                        associatedModel = Translator.castMXML(logMXML);     
-                        break;
-                        
-                    case "xes": 
-                        
-                        LogXES logXES = LogXES.extractLogXES(path);
-                        associatedModel = Translator.castXES(logXES);
-                        break;
-                        
-                    default: 
-                        System.out.println("error: unknown file format");
-                        return;
-                }
-                
-                System.out.println("successfully extracted initial model");
-                
-                // renewing model data 
-                thisInterface.vMode = VisualMode.TRANSITION_SYSTEM;
-                thisInterface.refSeqList = null;
-                thisInterface.transSystem = null;
-                thisInterface.actMapAtlas = null;
-            }
-        });
         
         controlPanel.add(buttonOpenFile);
         final JLabel refineLabel = new JLabel("Apply model refinement?");
@@ -136,15 +79,18 @@ public class InterfaceWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 
+                long startTime = System.nanoTime();
                 thisInterface.vMode = VisualMode.ACTIVITY_MAP;                
                 thisInterface.refSeqList = 
                         ReferencedSequence.generalizeModel(associatedModel);
                 
-                System.out.println("successfully generalized model");
                 System.out.println("--former cases number: " + 
                         associatedModel.getTaggedSequences().size());
                 System.out.println("--generalized cases number: " + 
                         refSeqList.size());
+                System.out.println("successfully generalized model; " + 
+                        "time taken: " + (System.nanoTime()-startTime)/1000000 + 
+                        "  ms");
             }
         });
         
@@ -161,6 +107,7 @@ public class InterfaceWindow extends JFrame {
                 System.out.println("translating to PDF...");
                 String outputBasePath = workingDirectory + File.separator;
                 int artifactNumber = 0;
+                long startTime = System.nanoTime();
                 
                 if (thisInterface.vMode == VisualMode.TRANSITION_SYSTEM) {
                     
@@ -183,6 +130,10 @@ public class InterfaceWindow extends JFrame {
                                 outputBasePath + "result" + i + ".dot");
                     }
                 }
+                
+                System.out.println("exported model to DOT; " + 
+                        "time taken: " + (System.nanoTime()-startTime)/1000000 + 
+                        "  ms");
                 
                 try {
                     for (int i = 0; i < artifactNumber; ++i) {
@@ -229,6 +180,8 @@ public class InterfaceWindow extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 
                 System.out.println("preparing for test case generating...");
+                long startTime = System.nanoTime();
+                
                 if (thisInterface.vMode == VisualMode.TRANSITION_SYSTEM) {
                     
                     thisInterface.transSystem.exportTestData(workingDirectory + 
@@ -244,6 +197,9 @@ public class InterfaceWindow extends JFrame {
                                 ".xml file is ready");
                     }
                 }
+                
+                System.out.println("time taken: " + 
+                        (System.nanoTime()-startTime)/1000000 + "  ms");
             }
         });
         
@@ -309,11 +265,13 @@ public class InterfaceWindow extends JFrame {
                 new JTextField("%d %t %C %M %pid %m");
         settingsGeneralPanel.add(log4jMappingField);
         
-        final JLabel timestampFormatLabel = new JLabel("Timestamp pattern");
+        final JLabel timestampFormatLabel = 
+                new JLabel("Timestamp pattern (leave empty for default)");
         settingsGeneralPanel.add(timestampFormatLabel);
         final JTextField timestampFormatField = 
-                new JTextField("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                new JTextField();
         settingsGeneralPanel.add(timestampFormatField);
+
         
         // --------------------Settings (filtration)----------------------- //
         
@@ -348,6 +306,67 @@ public class InterfaceWindow extends JFrame {
         tabbedPane.addTab("Settings (filtration)", settingsFiltrationPanel);
         this.add(tabbedPane);
         
+        buttonOpenFile.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = 
+                    new FileNameExtensionFilter("*.xes, *.mxml, *.log", 
+                            "xes", "mxml", "log");
+                fileChooser.setFileFilter(filter);
+                
+                int eCode = fileChooser.showOpenDialog(controlPanel);
+                if (eCode != JFileChooser.APPROVE_OPTION) {
+                    
+                    System.out.println("no file has been chosen; aborting");
+                    return;
+                }
+                
+                long startTime = System.nanoTime();
+                String path = fileChooser.getSelectedFile().getAbsolutePath();
+                System.out.println("opening file " + path + "...");
+                String extension = path.substring(
+                        path.lastIndexOf(".")+1, path.length());
+                System.out.println("detected ." + extension + " extension");
+                switch (extension) {
+                
+                    case "log":
+                        
+                        LogLog4j log4j = LogLog4j.extractLogLog4j(path);
+                        associatedModel = Translator.castLog4j(log4j);
+                        break;
+                        
+                    case "mxml":
+                        
+                        LogMXML logMXML = LogMXML.extractLogMXML(path);
+                        associatedModel = Translator.castMXML(logMXML);     
+                        break;
+                        
+                    case "xes": 
+                        
+                        LogXES logXES = LogXES.extractLogXES(path);
+                        associatedModel = Translator.castXES(logXES);
+                        break;
+                        
+                    default: 
+                        System.out.println("error: unknown file format");
+                        return;
+                }
+                
+                System.out.println("successfully extracted initial model; " + 
+                    "time taken: " + (System.nanoTime()-startTime)/1000000 
+                    + " ms");
+                
+                // renewing model data 
+                thisInterface.vMode = VisualMode.TRANSITION_SYSTEM;
+                thisInterface.refSeqList = null;
+                thisInterface.transSystem = null;
+                thisInterface.actMapAtlas = null;
+            }
+        });
+        
         refineButton.addActionListener(new ActionListener() {
             
             @Override
@@ -356,13 +375,19 @@ public class InterfaceWindow extends JFrame {
                 associatedModel.setDeltaT(Long.parseLong(
                     timeDeviationField.getText()));
                 associatedModel.setPrefixFrequencyThreshold(
-                    Double.parseDouble(prefixFreqThresholdField.getText()));
+                    Double.parseDouble(prefixFreqThresholdField.getText())/100);
                 associatedModel.setPostfixFrequencyThreshold(
-                    Double.parseDouble(postfixFreqThresholdField.getText()));
+                    Double.parseDouble(
+                        postfixFreqThresholdField.getText())/100);
                 associatedModel.setMissedFrequencyThreshold(
                     Double.parseDouble(
-                        missedEventFreqThresholdField.getText()));
+                        missedEventFreqThresholdField.getText())/100);
+                
+                long startTime = System.nanoTime();
                 associatedModel.refineData();
+                System.out.println("successfully refined model; " + 
+                        "time taken: " + (System.nanoTime()-startTime)/1000000 
+                        + " ms");
             }
         });
         

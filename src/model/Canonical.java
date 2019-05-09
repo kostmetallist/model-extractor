@@ -181,8 +181,11 @@ public class Canonical {
         
         taggedSequences.removeAll(toRemove);
         System.out.println("successfully filtered out:");
-        System.out.println("--prefixes: " + filteredPrefs + "/" + foundPrefs);
-        System.out.println("--postfixes: " + filteredPosts + "/" + foundPosts);
+        System.out.println("--cases: " + toRemove.size() + " with");
+        System.out.println("--prefix occurrencies: " + filteredPrefs + 
+                "/" + foundPrefs);
+        System.out.println("--postfix occurrencies: " + filteredPosts + 
+                "/" + foundPosts);
     }
     
     // returns null if considered as not containing missed events
