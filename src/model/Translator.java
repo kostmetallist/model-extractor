@@ -17,8 +17,7 @@ import model.xes.*;
 public class Translator {
 
     private static final DateTimeFormatter log4jFormatter = 
-            DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm:ss").
-            withZone(ZoneId.of("UTC"));
+            DateTimeFormatter.ofPattern("dd.MM.yyyy'T'HH:mm:ss");
     private static final DateTimeFormatter mxmlFormatter = 
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     private static final DateTimeFormatter mnpFormatter = 
@@ -41,6 +40,10 @@ public class Translator {
         
         DateTimeFormatter formatter = (customPattern == null)? log4jFormatter: 
             DateTimeFormatter.ofPattern(customPattern);
+        if (formatter.getZone() == null) {
+            formatter = formatter.withZone(ZoneId.of("UTC"));
+        }
+        
         Event earliest = new Event(), 
                 latest = new Event();
         ZonedDateTime found = ZonedDateTime.parse(events.get(0).timestamp, 
@@ -113,6 +116,10 @@ public class Translator {
 
         DateTimeFormatter formatter = (customPattern == null)? mxmlFormatter: 
             DateTimeFormatter.ofPattern(customPattern);
+        if (formatter.getZone() == null) {
+            formatter = formatter.withZone(ZoneId.of("UTC"));
+        }
+        
         int eventNumber = 0, 
                 caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();
@@ -301,6 +308,10 @@ public class Translator {
         
         DateTimeFormatter formatter = (customPattern == null)? xesFormatter: 
             DateTimeFormatter.ofPattern(customPattern);
+        if (formatter.getZone() == null) {
+            formatter = formatter.withZone(ZoneId.of("UTC"));
+        }
+        
         int eventNumber = 0, 
                 caseNum = 0;
         List<TaggedList> taggedSequences = new ArrayList<>();

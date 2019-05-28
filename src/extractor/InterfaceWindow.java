@@ -1,7 +1,9 @@
 package extractor;
 
-import java.awt.GridLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -209,7 +211,6 @@ public class InterfaceWindow extends JFrame {
         logTextArea.setEditable(false);
         PrintStream printStream = 
                 new PrintStream(new LogStream(logTextArea));
-//        this.stdOut = System.out;
         
         // redirecting standard streams to log area stream
         System.setErr(printStream);
@@ -217,6 +218,13 @@ public class InterfaceWindow extends JFrame {
         final JScrollPane logPane = new JScrollPane(logTextArea);
         System.out.println();
         
+        Font logFont = new Font("MONOSPACED", Font.BOLD, 12);
+        logTextArea.setBackground(new Color(40, 40, 40));
+        logTextArea.setForeground(Color.WHITE);
+        logTextArea.setFont(logFont);
+        
+        controlPanel.setBackground(new Color(200, 200, 200));
+        mainPanel.setBackground(new Color(200, 200, 200));
         mainPanel.add(controlPanel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(logPane);
@@ -224,7 +232,7 @@ public class InterfaceWindow extends JFrame {
         // ---------------------Settings (general)------------------------- //
         
         final JPanel settingsGeneralPanel = 
-                new JPanel(new GridLayout(6, 1, 0, 10));
+                new JPanel(new GridLayout(8, 1, 15, 10));
         
         final JLabel workingDirLabel = new JLabel("Working directory");
         settingsGeneralPanel.add(workingDirLabel);
@@ -257,6 +265,7 @@ public class InterfaceWindow extends JFrame {
             }
         });
         workingDirPanel.add(changeDirButton);
+        workingDirPanel.setBackground(new Color(200, 200, 200));
         settingsGeneralPanel.add(workingDirPanel);
         
         final JLabel log4jMappingLabel = new JLabel("Mapping for log4j logs");
@@ -271,12 +280,17 @@ public class InterfaceWindow extends JFrame {
         final JTextField timestampFormatField = 
                 new JTextField();
         settingsGeneralPanel.add(timestampFormatField);
+        
+        final JPanel emptyPanel = new JPanel();
+        settingsGeneralPanel.add(emptyPanel);
+        settingsGeneralPanel.add(emptyPanel);
+        settingsGeneralPanel.setBackground(new Color(200, 200, 200));
 
         
         // --------------------Settings (filtration)----------------------- //
         
         final JPanel settingsFiltrationPanel = 
-                new JPanel(new GridLayout(4, 2, 10, 10));
+                new JPanel(new GridLayout(8, 2, 15, 10));
         final JLabel prefixFreqThresholdLabel = 
                 new JLabel("Prefix frequency threshold (%) ");
         settingsFiltrationPanel.add(prefixFreqThresholdLabel);
@@ -300,6 +314,15 @@ public class InterfaceWindow extends JFrame {
         settingsFiltrationPanel.add(timeDeviationLabel);
         final JTextField timeDeviationField = new JTextField("512");
         settingsFiltrationPanel.add(timeDeviationField);
+        
+        settingsFiltrationPanel.add(emptyPanel);
+        settingsFiltrationPanel.add(emptyPanel);
+        settingsFiltrationPanel.add(emptyPanel);
+        settingsFiltrationPanel.add(emptyPanel);
+        settingsFiltrationPanel.add(emptyPanel);
+        settingsFiltrationPanel.add(emptyPanel);
+        emptyPanel.setBackground(new Color(200, 200, 200));
+        settingsFiltrationPanel.setBackground(new Color(200, 200, 200));
         
         tabbedPane.addTab("Main", mainPanel);
         tabbedPane.addTab("Settings (general)", settingsGeneralPanel);
@@ -330,6 +353,15 @@ public class InterfaceWindow extends JFrame {
                 String extension = path.substring(
                         path.lastIndexOf(".")+1, path.length());
                 System.out.println("detected ." + extension + " extension");
+                
+                LogLog4j.setPattern(log4jMappingField.getText());
+                String timestampPattern = timestampFormatField.getText();
+                if (!timestampPattern.isEmpty()) {
+                    Translator.setCustomPattern(timestampPattern);
+                }
+                
+                else { Translator.setCustomPattern(null); }
+                
                 switch (extension) {
                 
                     case "log":
@@ -390,6 +422,28 @@ public class InterfaceWindow extends JFrame {
                         + " ms");
             }
         });
+        
+        try {
+            for (UIManager.LookAndFeelInfo lnfi : 
+                UIManager.getInstalledLookAndFeels()) {
+
+                if ("Nimbus".equals(lnfi.getName())) {
+                    UIManager.setLookAndFeel(lnfi.getClassName());
+                }
+            }
+        }
+
+        catch (Exception e) {
+
+            try {
+                UIManager.setLookAndFeel(
+                    UIManager.getCrossPlatformLookAndFeelClassName());
+            }
+
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(500, 600));
