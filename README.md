@@ -1,7 +1,7 @@
 # Model extractor
 
 <p align="center">
-  <img src="doc/generalized-model-fragment.png" alt="<pic replacement>" width="400"/>
+  <img src="doc/generalized-model-fragment.png" alt="<pic replacement>" width="600"/>
 </p>
 
 Graduation CMC MSU MMXIX project. Process mining algorithm implementation
@@ -25,7 +25,7 @@ launch the program. Java version used for development: 10.0.1.
 diversified run modes (include/omit certain processing stage):
 
 <p align="center">
-  <img src="doc/gui-screenshot.png" alt="<pic replacement>" width="400"/>
+  <img src="doc/gui-screenshot.png" alt="<pic replacement>" width="500"/>
 </p>
 
 - custom mining algorithm for activity-driven process analysis
