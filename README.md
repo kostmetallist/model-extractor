@@ -5,7 +5,8 @@
 </p>
 
 Graduation CMC MSU MMXIX project. Process mining algorithm implementation
-for deriving process model from event log.
+for deriving process model from event log. [Full text](https://github.com/kostmetallist/model-extractor/blob/master/doc/theses-mmxix-no-title.pdf)
+of the work.
 
 ## Supported log formats
 
